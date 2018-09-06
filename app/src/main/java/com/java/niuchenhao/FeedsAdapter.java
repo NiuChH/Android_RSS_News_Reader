@@ -42,17 +42,27 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         YoYo.with(Techniques.FadeIn).playOn(holder.cardView);
         holder.current=datas.get(position);
         holder.Title.setText(holder.current.getTitle());
         holder.Description.setText(Html.fromHtml(holder.current.getDescription()));
+        holder.Description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.Description.getMaxLines() < 10)
+                    holder.Description.setMaxLines(100000);
+                else
+                    holder.Description.setMaxLines(3);
+            }
+        });
         holder.Date.setText(holder.current.getPubDate());
         Picasso.with(context).load(holder.current.getThumbnailUrl()).into(holder.Thumbnail);
         holder.Title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("holder title", "click!");
+
 //                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
             }
         });

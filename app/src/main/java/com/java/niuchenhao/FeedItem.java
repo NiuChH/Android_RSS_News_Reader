@@ -6,13 +6,14 @@ import java.util.UUID;
  * Created by rishabh on 24-02-2016.
  */
 public class FeedItem {
-    UUID id;
-    String title;
-    String link;
-    String description;
-    String pubDate;
-    String thumbnailUrl;
-    boolean hadRead;
+    private UUID id;
+    private String title;
+    private String link;
+    private String description;
+    private String pubDate;
+    private String thumbnailUrl;
+    private boolean hadRead;
+    private ChannelItem channelItem;
 
     public FeedItem(){
         id = UUID.randomUUID();
@@ -67,5 +68,13 @@ public class FeedItem {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public ChannelItem getChannelItem() {
+        return channelItem;
+    }
+
+    public void setChannelItem(ChannelItem channelItem) {
+        this.channelItem = channelItem;
     }
 }

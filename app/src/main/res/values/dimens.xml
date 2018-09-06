@@ -40,4 +40,6 @@
     <dimen name="video_thumb_height">72dp</dimen>
 
     <dimen name="edit_layout_height">50dp</dimen>
+    <dimen name="abstractHeight">20dp</dimen>
+    <dimen name="digest_height">60dp</dimen>
 </resources>

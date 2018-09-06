@@ -31,7 +31,7 @@ import org.jsoup.*;
 /**
  * Created by rishabh on 31-01-2016.
  */
-public class ReadRss extends AsyncTask<Void, Void, Void> {
+public class ReadRss extends AsyncTask<String, Void, Void> {
     @SuppressLint("StaticFieldLeak")
     private Context context;
     static private String address = "http://www.people.com.cn/rss/game.xml";
@@ -62,9 +62,9 @@ public class ReadRss extends AsyncTask<Void, Void, Void> {
 
     //This method will execute in background so in this method download rss feeds
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Void doInBackground(String... addresses) {
         //call process xml method to process document we downloaded from getData() method
-        ProcessXml(Getdata());
+        ProcessXml(Getdata(addresses));
 
         return null;
     }
@@ -119,14 +119,15 @@ public class ReadRss extends AsyncTask<Void, Void, Void> {
                             item.setLink(cureent.getTextContent());
                         }
                     }
-                    feedItems.add(item);
+                    if(item.getDescription().length() > 20)
+                        feedItems.add(item);
                 }
             }
         }
     }
 
     //This method will download rss feed document from specified url
-    public Document Getdata() {
+    public Document Getdata(String... addresses) {
         Log.d("ReadRSS", "GetData");
         try {
             url = new URL(address);
