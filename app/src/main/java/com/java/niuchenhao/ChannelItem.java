@@ -8,8 +8,11 @@ public class ChannelItem {
     private String xmlUrl;
     private int clickCount;
 
-    public ChannelItem(){
+    public ChannelItem(String title, String xmlUrl){
         id = UUID.randomUUID();
+        clickCount = 0;
+        this.title = title;
+        this.xmlUrl = xmlUrl;
     }
 
     public UUID getId() {
@@ -20,23 +23,15 @@ public class ChannelItem {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getXmlUrl() {
         return xmlUrl;
-    }
-
-    public void setXmlUrl(String xmlUrl) {
-        this.xmlUrl = xmlUrl;
     }
 
     public int getClickCount() {
         return clickCount;
     }
 
-    public void addClickCount(int clickCount) {
+    public void addClickCount() {
         this.clickCount += 1;
     }
 }

@@ -62,7 +62,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
             @Override
             public void onClick(View v) {
                 Log.d("holder title", "click!");
-
+                NewsContentActivity.actionStart(context, holder.current.getLink());
 //                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
             }
         });
