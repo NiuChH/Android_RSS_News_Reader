@@ -38,6 +38,15 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
         holder.current=datas.get(position);
         holder.Title.setText(holder.current.getTitle());
         holder.Description.setText(Html.fromHtml(holder.current.getDescription()));
+        View.OnClickListener clickOpenUrl = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.current.setHadRead(true);
+                refreshHadRead(holder);
+                NewsContentActivity.actionStart(context, holder.current.getLink());
+//                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
+            }
+        };
         holder.Description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,15 +61,8 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
         });
         holder.Date.setText(holder.current.getPubDate());
         Picasso.with(context).load(holder.current.getThumbnailUrl()).into(holder.Thumbnail);
-        holder.Title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.current.setHadRead(true);
-                refreshHadRead(holder);
-                NewsContentActivity.actionStart(context, holder.current.getLink());
-//                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
-            }
-        });
+        holder.Thumbnail.setOnClickListener(clickOpenUrl);
+        holder.Title.setOnClickListener(clickOpenUrl);
         refreshHadRead(holder);
     }
 

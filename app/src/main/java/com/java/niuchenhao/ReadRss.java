@@ -43,6 +43,7 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     private RecyclerView recyclerView;
     private URL url;
     private SwipeRefreshLayout swipeRefreshLayout;
+    static boolean firstTime = true;
 
     public ReadRss(Context context, RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout) {
         this.recyclerView = recyclerView;
@@ -55,7 +56,8 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     //before fetching of rss statrs show progress to user
     @Override
     protected void onPreExecute() {
-        progressDialog.show();
+        if(firstTime)
+            progressDialog.show();
         super.onPreExecute();
     }
 
@@ -72,7 +74,10 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        progressDialog.dismiss();
+        if(firstTime) {
+            progressDialog.dismiss();
+            firstTime = false;
+        }
         if(adapter == null) {
             adapter = new FeedsAdapter(context, feedItems);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
