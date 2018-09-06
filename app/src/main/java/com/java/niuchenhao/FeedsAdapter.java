@@ -1,29 +1,20 @@
 package com.java.niuchenhao;
 
-import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
-import org.jsoup.Connection;
-
 import java.util.ArrayList;
-
-import javax.xml.datatype.Duration;
 
 /**
  * Created by rishabh on 26-02-2016.
@@ -52,8 +43,11 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
             public void onClick(View v) {
                 if(holder.Description.getMaxLines() < 10)
                     holder.Description.setMaxLines(100000);
-                else
+                else {
                     holder.Description.setMaxLines(3);
+                    holder.current.setHadReadDescription(true);
+                }
+                refreshHadRead(holder);
             }
         });
         holder.Date.setText(holder.current.getPubDate());
@@ -61,13 +55,28 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
         holder.Title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("holder title", "click!");
+                holder.current.setHadRead(true);
+                refreshHadRead(holder);
                 NewsContentActivity.actionStart(context, holder.current.getLink());
 //                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
             }
         });
+        refreshHadRead(holder);
     }
 
+    private void refreshHadRead(final MyViewHolder holder){
+        if(holder.current.hadRead()) {
+            holder.Title.setTextColor(0xdeb7b7b7);
+        } else {
+            holder.Title.setTextColor(0xe2ffffff);
+        }
+        if(holder.current.hadReadDescription())
+            holder.Description.setTextColor(0xe94e4e4e);
+        else
+            holder.Description.setTextColor(0xe9131313);
+        holder.Title.refreshDrawableState();
+        holder.Description.refreshDrawableState();
+    }
 
     @Override
     protected boolean areItemsTheSame(FeedItem oldItem, FeedItem newItem) {

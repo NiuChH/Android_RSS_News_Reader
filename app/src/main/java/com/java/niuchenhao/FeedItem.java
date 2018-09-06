@@ -2,9 +2,6 @@ package com.java.niuchenhao;
 
 import java.util.UUID;
 
-/**
- * Created by rishabh on 24-02-2016.
- */
 public class FeedItem {
     private UUID id;
     private String title;
@@ -13,6 +10,7 @@ public class FeedItem {
     private String pubDate;
     private String thumbnailUrl;
     private boolean hadRead;
+    private boolean hadReadDescription;
     private ChannelItem channelItem;
 
     public FeedItem(){
@@ -20,11 +18,11 @@ public class FeedItem {
         hadRead = false;
     }
 
-    public void toggleHadRead() {
-        hadRead = !hadRead;
+    public void setHadRead(boolean hadRead){
+        this.hadRead = hadRead;
     }
 
-    public boolean getHadRead() {
+    public boolean hadRead() {
         return hadRead;
     }
 
@@ -76,5 +74,13 @@ public class FeedItem {
 
     public void setChannelItem(ChannelItem channelItem) {
         this.channelItem = channelItem;
+    }
+
+    public boolean hadReadDescription() {
+        return hadReadDescription;
+    }
+
+    public void setHadReadDescription(boolean hadReadDescription) {
+        this.hadReadDescription = hadReadDescription;
     }
 }
