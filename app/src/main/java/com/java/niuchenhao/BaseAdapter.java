@@ -6,6 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BaseAdapter
+ * Reference: https://loshine.xyz/2016/08/25/a-universal-solution-of-recyclerview-adapter-notify/
+ * @param <T>
+ * @param <V>
+ */
 public abstract class BaseAdapter<T, V extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<V>{
     protected final List<T> temp; // 用于保存修改之前的数据源的副本

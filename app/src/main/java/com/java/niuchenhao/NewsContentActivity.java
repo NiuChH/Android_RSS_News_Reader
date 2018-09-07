@@ -20,6 +20,12 @@ public class NewsContentActivity extends AppCompatActivity {
 
     private View view;
 
+    public static void actionStart(Context context, String newsUrl) {
+        Intent intent = new Intent(context, NewsContentActivity.class);
+        intent.putExtra("news_url", newsUrl);
+        context.startActivity(intent);
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +55,5 @@ public class NewsContentActivity extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(newsUrl);
-    }
-
-    public static void actionStart(Context context, String newsUrl) {
-        Intent intent = new Intent(context, NewsContentActivity.class);
-        intent.putExtra("news_url", newsUrl);
-        context.startActivity(intent);
     }
 }

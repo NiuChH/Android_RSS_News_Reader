@@ -25,6 +25,7 @@
             android:name=".NewsContentActivity"
             android:label="@string/title_activity_news_content"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ChannelsActivity"></activity>
     </application>
 
 </manifest>

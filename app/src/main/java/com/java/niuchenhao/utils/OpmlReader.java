@@ -3,6 +3,7 @@ package com.java.niuchenhao.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.java.niuchenhao.ChannelItem;
 import com.java.niuchenhao.R;
 
 import java.io.FileNotFoundException;
@@ -10,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +27,9 @@ public class OpmlReader {
         throw new AssertionError("OpmlReader is a static class");
     }
 
-    public static String readData(Context context, String fileName){
+    private static ArrayList<ChannelItem> li = new ArrayList<>();
+
+    public static List<ChannelItem> readData(Context context, String fileName){
         InputStream inStream;
         String data = null;
         try {
@@ -38,7 +43,7 @@ public class OpmlReader {
             e.printStackTrace();
         }
         if(data == null)
-            return data;
+            return li;
         Document doc = Jsoup.parse(data);
         JSONObject json = new JSONObject();
         String text, xmlUrl;
@@ -47,13 +52,10 @@ public class OpmlReader {
             if(ele.attr("type").equalsIgnoreCase("rss")){
                 text = ele.attr("text");
                 xmlUrl = ele.attr("xmlUrl");
-                try {
-                    json.put(text, xmlUrl);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                li.add(new ChannelItem(text, xmlUrl));
             }
         }
+        Log.d("OpmlReader", li.toString());
 //        try {
 //            FileWriter fos = new FileWriter(fileName.replace("xml", "txt"));
 //            fos.write(json.toString());
@@ -61,7 +63,7 @@ public class OpmlReader {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return json.toString();
+        return li;
     }
 
 }

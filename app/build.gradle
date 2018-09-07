@@ -32,11 +32,16 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
 
-//    implementation "com.github.nisrulz:recyclerviewhelper:${supportLibVersion}"
+
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation "com.android.support:cardview-v7:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'org.jsoup:jsoup:1.11.3'
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.java.niuchenhao;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -19,21 +20,21 @@ import java.util.ArrayList;
 /**
  * Created by rishabh on 26-02-2016.
  */
-public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolder> {
-    Context context;
+public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHolder> {
+    private Context context;
     public FeedsAdapter(Context context, ArrayList<FeedItem>feedItems){
         super(feedItems);
         this.context=context;
     }
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.custum_row_news_item,parent,false);
-        MyViewHolder holder=new MyViewHolder(view);
-        return holder;
+    public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(context).inflate(R.layout.custum_row_news_item, parent,false);
+        return new FeedViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final FeedViewHolder holder, int position) {
         YoYo.with(Techniques.FadeIn).playOn(holder.cardView);
         holder.current=datas.get(position);
         holder.Title.setText(holder.current.getTitle());
@@ -66,7 +67,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
         refreshHadRead(holder);
     }
 
-    private void refreshHadRead(final MyViewHolder holder){
+    private void refreshHadRead(final FeedViewHolder holder){
         if(holder.current.hadRead()) {
             holder.Title.setTextColor(0xdeb7b7b7);
         } else {
@@ -104,12 +105,12 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.MyViewHolde
 //        }
 //    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class FeedViewHolder extends RecyclerView.ViewHolder {
         TextView Title,Description,Date;
         ImageView Thumbnail;
         CardView cardView;
         FeedItem current;
-        public MyViewHolder(View itemView) {
+        public FeedViewHolder(View itemView) {
             super(itemView);
             Title= (TextView) itemView.findViewById(R.id.title_text);
             Description= (TextView) itemView.findViewById(R.id.description_text);

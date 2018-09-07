@@ -1,6 +1,7 @@
 package com.java.niuchenhao;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -38,16 +39,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerview);
         swipeRefresh = findViewById(R.id.swipe_refresh);
-        //Call Read rss asyntask to fetch rss
+        //Call Read rss async task to fetch rss
         final Context context = this;
+        ChannelsPresenter.getChannelsPresenter(context);
         new ReadRss(context, recyclerView, swipeRefresh).execute();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
-
-
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.settings:
                 Toast.makeText(this, "You clicked Settings", Toast.LENGTH_SHORT).show();
+                ChannelsActivity.actionStart(this);
                 break;
             default:
         }
