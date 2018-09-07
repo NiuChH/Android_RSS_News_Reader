@@ -2,23 +2,16 @@ package com.java.niuchenhao;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.IntRange;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
-import com.java.niuchenhao.utils.OpmlReader;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ChannelsActivity extends AppCompatActivity {

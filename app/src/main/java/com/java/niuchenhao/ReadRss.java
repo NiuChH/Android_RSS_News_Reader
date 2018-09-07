@@ -66,7 +66,7 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... addresses) {
         //call process xml method to process document we downloaded from getData() method
-        ProcessXml(Getdata(addresses));
+        ProcessXml(Getdata(addresses[0]));
 
         return null;
     }
@@ -132,7 +132,7 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     }
 
     //This method will download rss feed document from specified url
-    public Document Getdata(String... addresses) {
+    public Document Getdata(String address) {
         Log.d("ReadRSS", "GetData");
         try {
             url = new URL(address);

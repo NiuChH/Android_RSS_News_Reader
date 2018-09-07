@@ -23,40 +23,17 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
-
-    private SwipeRefreshLayout swipeRefresh;
-
-    RecyclerView recyclerView;
-
-    public SwipeRefreshLayout getSwipeRefresh() {
-        return swipeRefresh;
-    }
+//    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.recyclerview);
-        swipeRefresh = findViewById(R.id.swipe_refresh);
-        //Call Read rss async task to fetch rss
-        final Context context = this;
-        ChannelsPresenter.getChannelsPresenter(context);
-        new ReadRss(context, recyclerView, swipeRefresh).execute();
+        ChannelsPresenter.getChannelsPresenter(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                final ReadRss readRss = new ReadRss(context, recyclerView, swipeRefresh);
-                readRss.execute();
-            }
-        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                break;
+//            case android.R.id.home:
+//                mDrawerLayout.openDrawer(GravityCompat.START);
+//                break;
             case R.id.backup:
                 Toast.makeText(this, "You clicked Backup", Toast.LENGTH_SHORT).show();
                 break;
@@ -78,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "You clicked Delete", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.settings:
-                Toast.makeText(this, "You clicked Settings", Toast.LENGTH_SHORT).show();
                 ChannelsActivity.actionStart(this);
                 break;
             default:

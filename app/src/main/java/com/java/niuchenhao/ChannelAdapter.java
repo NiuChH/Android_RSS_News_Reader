@@ -17,9 +17,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by rishabh on 26-02-2016.
- */
 public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.ChannelViewHolder> {
     private Context context;
     public ChannelAdapter(Context context, List<ChannelItem> channelItems){
