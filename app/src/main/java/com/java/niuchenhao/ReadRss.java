@@ -12,11 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.jsoup.*;
 
@@ -88,40 +86,45 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     }
 
     // In this method we will process Rss feed  document we downloaded to parse useful information from it
+
     private void ProcessXml(Document data) {
         if (data != null) {
             temp_feedItems = new ArrayList<>();
-            Element root = data.getDocumentElement();
-            Node channel = root.getChildNodes().item(1);
-            NodeList items = channel.getChildNodes();
-            for (int i = 0; i < items.getLength(); i++) {
-                Node cureentchild = items.item(i);
-                if (cureentchild.getNodeName().equalsIgnoreCase("item")) {
-                    FeedItem item = new FeedItem();
-                    NodeList itemchilds = cureentchild.getChildNodes();
-                    for (int j = 0; j < itemchilds.getLength(); j++) {
-                        Node cureent = itemchilds.item(j);
-                        if (cureent.getNodeName().equalsIgnoreCase("title")) {
-                            item.setTitle(cureent.getTextContent());
-                        } else if (cureent.getNodeName().equalsIgnoreCase("description")) {
-                            item.setDescription(cureent.getTextContent().replaceAll("<img.*?/>", ""));
-                            Elements maybeImg = Jsoup.parse(cureent.getTextContent()).getElementsByTag("img");
+            Elements items = data.getElementsByTag("item");
+            for(Element item: items){
+//                Log.d("item", item.tagName()+" "+item.text());
+                FeedItem feeditem = new FeedItem();
+                Elements eles = item.children();
+                for(Element e : eles){
+//                    Log.d("ele", e.tagName()+" "+e.text());
+                    switch (e.tagName()){
+                        case "title":
+                            feeditem.setTitle(e.text());
+                            break;
+                        case "description":
+                            feeditem.setDescription(e.text().replaceAll("<img.*?/>", ""));
+                            Elements maybeImg = Jsoup.parse(e.text()).getElementsByTag("img");
                             if(!maybeImg.isEmpty())
-                                item.setThumbnailUrl(maybeImg.first().attr("src"));
+                                feeditem.setThumbnailUrl(maybeImg.first().attr("src"));
                             else
-                                item.setThumbnailUrl("drawable/rss_logo.gif");
-                        } else if (cureent.getNodeName().equalsIgnoreCase("pubDate")) {
-                            item.setPubDate(cureent.getTextContent());
-                        } else if (cureent.getNodeName().equalsIgnoreCase("link")) {
-                            item.setLink(cureent.getTextContent());
-                        }
+                                feeditem.setThumbnailUrl("drawable/nav_icon.png");
+                            break;
+                        case "pubDate":
+                            feeditem.setPubDate(e.text());
+                            break;
+                        case "link":
+                            feeditem.setLink(e.text());
+//                            Log.d("ele", e.tagName()+" "+e.text());
+                            break;
                     }
-                    if(item.getDescription().length() > 20)
-                        temp_feedItems.add(item);
                 }
+                if(feeditem.getDescription().length() >= 20)
+                    temp_feedItems.add(feeditem);
             }
             feedItems.clear();
             feedItems.addAll(temp_feedItems);
+        } else {
+            Log.e("ReadRss", "get empty data");
         }
     }
 
@@ -129,14 +132,10 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     public Document Getdata(String address) {
         Log.d("ReadRSS", "GetData");
         try {
-            url = new URL(address);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            InputStream inputStream = connection.getInputStream();
-            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            Document xmlDoc = builder.parse(inputStream);
-            return xmlDoc;
+//            url = new URL(address);
+            Document doc = Jsoup.parse(new URL(address), 6000);
+            Log.d("ReadRss", doc.wholeText());
+            return doc;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
