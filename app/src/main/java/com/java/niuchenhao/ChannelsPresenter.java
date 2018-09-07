@@ -3,6 +3,7 @@ package com.java.niuchenhao;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Adapter;
 
 import com.java.niuchenhao.utils.OpmlReader;
 
@@ -13,10 +14,14 @@ import java.util.List;
 public class ChannelsPresenter {
 
     private static ChannelsPresenter channelsPresenter = null;
+    private static ChannelPagerAdapter channelPagerAdapter = null;
     private static List<ChannelItem> channelItemArrayList;
     private static List<ChannelItem> checkedChannels;
     private static List<ChannelItem> uncheckedChannels;
     private static List<ChannelAdapter> adapterList = new LinkedList<>();
+
+    private static ChannelItem recommendChannelItem =
+            new ChannelItem("推荐", "http://www.people.com.cn/rss/game.xml");
 
     private ChannelsPresenter(Context context){
         channelItemArrayList = OpmlReader.readData(context, "opml.xml");
@@ -24,8 +29,11 @@ public class ChannelsPresenter {
         uncheckedChannels = new ArrayList<>(channelItemArrayList.subList(3, channelItemArrayList.size()));
     }
 
-    public static void registAdapter(ChannelAdapter adapter){
-        adapterList.add(adapter);
+    public static void registerAdapter(Object adapter){
+        if(adapter instanceof ChannelAdapter)
+            adapterList.add((ChannelAdapter)adapter);
+        else if(adapter instanceof ChannelPagerAdapter)
+            channelPagerAdapter = (ChannelPagerAdapter) adapter;
     }
 
     public static ChannelsPresenter getChannelsPresenter(Context context){
@@ -44,6 +52,10 @@ public class ChannelsPresenter {
 
     public static List<ChannelItem> getUncheckedChannels() {
         return uncheckedChannels;
+    }
+
+    public static ChannelItem getRecommendChannelItem(){
+        return recommendChannelItem;
     }
 
     public static boolean toggleCheck(ChannelItem item){
@@ -71,5 +83,7 @@ public class ChannelsPresenter {
         for(ChannelAdapter adapter : adapterList)
             if(adapter != null)
                 adapter.notifyDiff();
+        if(channelPagerAdapter != null)
+            channelPagerAdapter.notifyDataSetChanged();
     }
 }

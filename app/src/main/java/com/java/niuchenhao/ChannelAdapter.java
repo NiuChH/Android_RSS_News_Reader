@@ -8,13 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.ChannelViewHolder> {
@@ -23,7 +21,7 @@ public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.Chan
         super(channelItems);
         this.context=context;
         Log.d("channel adapter", channelItems.toString());
-        ChannelsPresenter.registAdapter(this);
+        ChannelsPresenter.registerAdapter(this);
     }
     @NonNull
     @Override

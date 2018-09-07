@@ -1,5 +1,6 @@
 package com.java.niuchenhao;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,11 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,12 +34,15 @@ public class NewsFragment extends Fragment {
 
     private String xmlUrl;
 
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
 
     private SwipeRefreshLayout swipeRefresh;
 
-    RecyclerView recyclerView;
+    private FeedsAdapter adapter = null;
 
+    private ArrayList<FeedItem> feedItems;
+
+    private RecyclerView recyclerView;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -60,6 +68,12 @@ public class NewsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             xmlUrl = getArguments().getString(ARG_XML_URL);
+            Log.d("ARG_XML_URL", xmlUrl);
+            feedItems = new ArrayList<>();
+            adapter = new FeedsAdapter(getContext(), feedItems);
+
+        } else {
+            Log.e("ARG_XML_URL", "empty!");
         }
     }
 
@@ -73,59 +87,60 @@ public class NewsFragment extends Fragment {
 
         recyclerView = rootView.findViewById(R.id.recyclerview);
         swipeRefresh = rootView.findViewById(R.id.swipe_refresh);
-        recyclerView = rootView.findViewById(R.id.recyclerview);
-        swipeRefresh = rootView.findViewById(R.id.swipe_refresh);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new VerticalSpace(20));
+        recyclerView.setAdapter(adapter);
         //Call Read rss async task to fetch rss
 
-        new ReadRss(context, recyclerView, swipeRefresh).execute(xmlUrl);
+        Log.d("ARG_XML_URL", xmlUrl);
+        new ReadRss(context, adapter, swipeRefresh, feedItems).execute(xmlUrl);
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                final ReadRss readRss = new ReadRss(context, recyclerView, swipeRefresh);
-                readRss.execute();
+                new ReadRss(context, adapter, swipeRefresh, feedItems).execute(xmlUrl);
             }
         });
         return rootView;
     }
+//
+//    // TODO: Rename method, update argument and hook method into UI event
+//    public void onButtonPressed(Uri uri) {
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
+//    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
+//
+//    /**
+//     * This interface must be implemented by activities that contain this
+//     * fragment to allow an interaction in this fragment to be communicated
+//     * to the activity and potentially other fragments contained in that
+//     * activity.
+//     * <p>
+//     * See the Android Training lesson <a href=
+//     * "http://developer.android.com/training/basics/fragments/communicating.html"
+//     * >Communicating with Other Fragments</a> for more information.
+//     */
+//    public interface OnFragmentInteractionListener {
+//        // TODO: Update argument type and name
+//        void onFragmentInteraction(Uri uri);
+//    }
 }

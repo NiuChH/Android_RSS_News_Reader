@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -34,20 +36,23 @@ import org.jsoup.*;
 public class ReadRss extends AsyncTask<String, Void, Void> {
     @SuppressLint("StaticFieldLeak")
     private Context context;
-    static private String address = "http://www.people.com.cn/rss/game.xml";
+//    static private String address = "http://www.people.com.cn/rss/game.xml";
     private ProgressDialog progressDialog;
-    private ArrayList<FeedItem> feedItems;
-    @SuppressLint("StaticFieldLeak")
-    private static FeedsAdapter adapter = null;
-    @SuppressLint("StaticFieldLeak")
-    private RecyclerView recyclerView;
+
+    private FeedsAdapter adapter;
     private URL url;
     private SwipeRefreshLayout swipeRefreshLayout;
     static boolean firstTime = true;
+    private List<FeedItem> feedItems;
+    private List<FeedItem> temp_feedItems;
 
-    public ReadRss(Context context, RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout) {
-        this.recyclerView = recyclerView;
+    public ReadRss(Context context,
+                   FeedsAdapter adapter,
+                   SwipeRefreshLayout swipeRefreshLayout,
+                   List<FeedItem> feedItems) {
         this.context = context;
+        this.adapter = adapter;
+        this.feedItems = feedItems;
         this.swipeRefreshLayout = swipeRefreshLayout;
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Loading...");
@@ -66,8 +71,8 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... addresses) {
         //call process xml method to process document we downloaded from getData() method
+        Log.d("addresses", Arrays.toString(addresses));
         ProcessXml(Getdata(addresses[0]));
-
         return null;
     }
 
@@ -78,27 +83,14 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
             progressDialog.dismiss();
             firstTime = false;
         }
-        if(adapter == null) {
-            adapter = new FeedsAdapter(context, feedItems);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.addItemDecoration(new VerticalSpace(20));
-            recyclerView.setAdapter(adapter);
-        } else {
-            // ???
-            adapter.notifyDiff();
-//            adapter = new FeedsAdapter(context, feedItems);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            recyclerView.addItemDecoration(new VerticalSpace(20));
-//            recyclerView.setAdapter(adapter);
-        }
+        adapter.notifyDiff();
         swipeRefreshLayout.setRefreshing(false);
-//        swipeRefreshLayout.setVisibility(View.INVISIBLE);
     }
 
     // In this method we will process Rss feed  document we downloaded to parse useful information from it
     private void ProcessXml(Document data) {
         if (data != null) {
-            feedItems = new ArrayList<>();
+            temp_feedItems = new ArrayList<>();
             Element root = data.getDocumentElement();
             Node channel = root.getChildNodes().item(1);
             NodeList items = channel.getChildNodes();
@@ -125,9 +117,11 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
                         }
                     }
                     if(item.getDescription().length() > 20)
-                        feedItems.add(item);
+                        temp_feedItems.add(item);
                 }
             }
+            feedItems.clear();
+            feedItems.addAll(temp_feedItems);
         }
     }
 
