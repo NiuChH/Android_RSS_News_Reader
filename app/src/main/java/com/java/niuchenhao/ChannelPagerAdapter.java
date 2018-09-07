@@ -7,12 +7,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.flyco.tablayout.SlidingTabLayout;
+
 public class ChannelPagerAdapter extends FragmentPagerAdapter {
 
     private Resources resources;
+    private SlidingTabLayout slidingTabLayout;
 
-    public ChannelPagerAdapter(Context context, FragmentManager fm) {
+    public ChannelPagerAdapter(Context context, FragmentManager fm, SlidingTabLayout slidingTabLayout) {
         super(fm);
+        this.slidingTabLayout = slidingTabLayout;
         resources = context.getResources();
     }
 
@@ -37,6 +41,12 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter {
     /** Set tab title */
     @Override
     public CharSequence getPageTitle(int position) {
-        return getChannelItem(position).getTitle();
+        return " "+getChannelItem(position).getTitle()+" ";
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        slidingTabLayout.notifyDataSetChanged();
     }
 }

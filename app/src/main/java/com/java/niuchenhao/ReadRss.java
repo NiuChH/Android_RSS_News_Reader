@@ -52,15 +52,15 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
         this.adapter = adapter;
         this.feedItems = feedItems;
         this.swipeRefreshLayout = swipeRefreshLayout;
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Loading...");
+//        progressDialog = new ProgressDialog(context);
+//        progressDialog.setMessage("Loading...");
     }
 
     //before fetching of rss statrs show progress to user
     @Override
     protected void onPreExecute() {
-        if(firstTime)
-            progressDialog.show();
+//        if(firstTime)
+//            progressDialog.show();
         super.onPreExecute();
     }
 
@@ -77,10 +77,10 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if(firstTime) {
-            progressDialog.dismiss();
-            firstTime = false;
-        }
+//        if(firstTime) {
+//            progressDialog.dismiss();
+//            firstTime = false;
+//        }
         adapter.notifyDiff();
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -134,7 +134,6 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
         try {
 //            url = new URL(address);
             Document doc = Jsoup.parse(new URL(address), 6000);
-            Log.d("ReadRss", doc.wholeText());
             return doc;
         } catch (Exception e) {
             e.printStackTrace();

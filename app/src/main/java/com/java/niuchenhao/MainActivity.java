@@ -22,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,21 +45,33 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.viewpager);
 
         // Give the TabLayout the ViewPager
-        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+        SlidingTabLayout tabLayout = findViewById(R.id.sliding_tabs);
 
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorAccent));
-        tabLayout.setTabTextColors(
-                ContextCompat.getColor(this, android.R.color.white),
-                ContextCompat.getColor(this, android.R.color.black)
-        );
-        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorAccent));
+//        tabLayout.setTabTextColors(
+//                ContextCompat.getColor(this, android.R.color.white),
+//                ContextCompat.getColor(this, android.R.color.black)
+//        );
+
 
         // Create an adapter that knows which fragment should be shown on each page
-        ChannelPagerAdapter adapter = new ChannelPagerAdapter(this, getSupportFragmentManager());
+        ChannelPagerAdapter adapter = new ChannelPagerAdapter(this, getSupportFragmentManager(), tabLayout);
         ChannelsPresenter.registerAdapter(adapter);
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
+
+        tabLayout.setViewPager(viewPager);
+//        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+//            @Override
+//            public void onTabSelect(int position) {
+//            }
+//
+//            @Override
+//            public void onTabReselect(int position) {
+//
+//            }
+//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
