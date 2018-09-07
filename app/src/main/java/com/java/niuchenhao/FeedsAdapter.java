@@ -44,7 +44,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
             public void onClick(View v) {
                 holder.current.setHadRead(true);
                 refreshHadRead(holder);
-                NewsContentActivity.actionStart(context, holder.current.getLink());
+                NewsContentActivity.actionStart(context, holder.current);
 //                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
             }
         };

@@ -1,8 +1,12 @@
 package com.java.niuchenhao;
 
+import android.content.Context;
+import android.content.Intent;
+
+import java.io.Serializable;
 import java.util.UUID;
 
-public class FeedItem {
+public class FeedItem implements Serializable {
     private UUID id;
     private String title;
     private String link;

@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission android:name="com.java.niuchenhao.ASSET_ACCESS"
+        android:protectionLevel="signature" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +28,16 @@
             android:name=".NewsContentActivity"
             android:label="@string/title_activity_news_content"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ChannelsActivity"></activity>
+        <activity android:name=".ChannelsActivity" />
+
+        <!-- ContentProvider which serves files from this application's asset folder -->
+        <!-- Allow the access to only the apps having the same signature for security -->
+        <provider
+            android:name=".utils.AssetProvider"
+            android:authorities="com.java.niuchenhao.shareactionprovider"
+            android:grantUriPermissions="true"
+            android:exported="true"
+            android:permission="com.java.niuchenhao.ASSET_ACCESS" />
     </application>
 
 </manifest>
