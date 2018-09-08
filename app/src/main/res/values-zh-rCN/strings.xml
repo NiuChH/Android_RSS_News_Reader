@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Nch News</string>
+    <string name="app_name">人民网新闻</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_news_content">新闻详情</string>
+    <string name="menu_share">分享</string>
+    <string name="customize_channels">频道设置</string>
 </resources>

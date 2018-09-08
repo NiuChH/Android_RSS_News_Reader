@@ -1,9 +1,14 @@
 package com.java.niuchenhao.bean;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.LitePalSupport;
+
 import java.io.Serializable;
 import java.util.UUID;
 
-public class FeedItem implements Serializable {
+public class FeedItem extends LitePalSupport implements Serializable {
+
+    @Column(unique = true)
     private UUID id;
     private String title;
     private String link;
@@ -18,6 +23,18 @@ public class FeedItem implements Serializable {
     public FeedItem(){
         id = UUID.randomUUID();
         hadRead = false;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public boolean isHadRead() {
+        return hadRead;
+    }
+
+    public boolean isHadReadDescription() {
+        return hadReadDescription;
     }
 
     public void setHadRead(boolean hadRead){

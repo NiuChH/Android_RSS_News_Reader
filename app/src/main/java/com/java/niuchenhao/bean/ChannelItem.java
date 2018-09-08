@@ -1,9 +1,14 @@
 package com.java.niuchenhao.bean;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.LitePalSupport;
+
 import java.io.Serializable;
 import java.util.UUID;
 
-public class ChannelItem implements Serializable {
+public class ChannelItem extends LitePalSupport implements Serializable {
+
+    @Column(unique = true)
     private UUID id;
     private String title;
     private String xmlUrl;
@@ -21,24 +26,44 @@ public class ChannelItem implements Serializable {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getXmlUrl() {
         return xmlUrl;
     }
 
+    public void setXmlUrl(String xmlUrl) {
+        this.xmlUrl = xmlUrl;
+    }
+
     public int getClickCount() {
         return clickCount;
     }
 
-    public void addClickCount() {
-        this.clickCount += 1;
+    public void setClickCount(int clickCount) {
+        this.clickCount = clickCount;
     }
 
     public boolean isChecked() {
         return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public void addClickCount() {
+        this.clickCount += 1;
     }
 
     public void toggleChecked() {

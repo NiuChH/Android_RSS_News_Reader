@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.java.niuchenhao.bean.ChannelItem;
 
-public class ChannelPagerAdapter extends FragmentPagerAdapter {
+public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifiable{
 
     private Resources resources;
     private SlidingTabLayout slidingTabLayout;
@@ -48,5 +48,9 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter {
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         slidingTabLayout.notifyDataSetChanged();
+    }
+
+    public void notifyDiff(){
+        notifyDataSetChanged();
     }
 }

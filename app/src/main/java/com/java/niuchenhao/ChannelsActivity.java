@@ -32,7 +32,7 @@ public class ChannelsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        toolbar.setTitle("栏目选择");
+        toolbar.setTitle(R.string.customize_channels);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

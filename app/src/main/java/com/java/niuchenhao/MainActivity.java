@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LitePal.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         ChannelsPresenter.getChannelsPresenter(this);
 

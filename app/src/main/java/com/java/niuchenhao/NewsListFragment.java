@@ -53,6 +53,7 @@ public class NewsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("NewsListFragment", "create");
         try{
             channelItem = (ChannelItem) getArguments().getSerializable(ARG_CHANNEL_ITEM);
             feedItems = new ArrayList<>();

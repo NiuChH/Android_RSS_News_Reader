@@ -13,7 +13,7 @@ import java.util.List;
  * @param <V>
  */
 public abstract class BaseAdapter<T, V extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<V>{
+        extends RecyclerView.Adapter<V> implements Notifiable{
     protected final List<T> temp; // 用于保存修改之前的数据源的副本
     protected final List<T> datas; // 数据源
     public BaseAdapter(List<T> datas) {
