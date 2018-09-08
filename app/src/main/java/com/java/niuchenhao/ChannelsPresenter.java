@@ -11,7 +11,8 @@ import java.util.List;
 
 public class ChannelsPresenter extends BasePresenter {
 
-    private static ChannelsPresenter channelsPresenter = null;
+    private static BasePresenter mPresenter = new ChannelsPresenter();
+    private static List<ChannelItem> channelItemArrayList;
     private static List<ChannelItem> checkedChannels;
     private static List<ChannelItem> uncheckedChannels;
 
@@ -19,18 +20,13 @@ public class ChannelsPresenter extends BasePresenter {
             // TODO implement Recommendation
             new ChannelItem("推荐", "http://www.people.com.cn/rss/game.xml");
 
-    private ChannelsPresenter(Context context){
-        // TODO get this from DB
-        List<ChannelItem> channelItemArrayList = OpmlReader.readData(context, "opml.xml");
+    private ChannelsPresenter(){
+
+        // TODO get form db(sync)
+        //channelItemArrayList = OpmlReader.readData(context, "opml.xml");
+
         checkedChannels = new ArrayList<>(channelItemArrayList.subList(0, 3));
         uncheckedChannels = new ArrayList<>(channelItemArrayList.subList(3, channelItemArrayList.size()));
-    }
-
-    public static ChannelsPresenter getChannelsPresenter(Context context){
-        if(channelsPresenter==null){
-            channelsPresenter = new ChannelsPresenter(context);
-        }
-        return channelsPresenter;
     }
 
     public static List<ChannelItem> getCheckedChannels() {

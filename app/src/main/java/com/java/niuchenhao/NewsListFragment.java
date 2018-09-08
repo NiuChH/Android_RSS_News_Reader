@@ -16,6 +16,7 @@ import com.java.niuchenhao.bean.ChannelItem;
 import com.java.niuchenhao.bean.FeedItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class NewsListFragment extends Fragment {
@@ -34,7 +35,7 @@ public class NewsListFragment extends Fragment {
 
     private FeedsAdapter adapter = null;
 
-    private ArrayList<FeedItem> feedItems;
+    private List<FeedItem> feedItems;
 
     private RecyclerView recyclerView;
 
@@ -56,8 +57,9 @@ public class NewsListFragment extends Fragment {
         Log.d("NewsListFragment", "create");
         try{
             channelItem = (ChannelItem) getArguments().getSerializable(ARG_CHANNEL_ITEM);
-            feedItems = new ArrayList<>();
-            adapter = new FeedsAdapter(getContext(), feedItems);
+            feedItems = FeedsPresenter.getFeedItemList(channelItem);
+            adapter = new FeedsAdapter(getContext(), feedItems, channelItem);
+            FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.TRUE);
         } catch (ClassCastException e){
             Log.e("ARG_CHANNEL_ITEM", "not a channelIte!");
             e.printStackTrace();
@@ -82,7 +84,8 @@ public class NewsListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         //Call Read rss async task to fetch rss
 
-        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
+//        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
+        FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.FALSE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -95,7 +98,8 @@ public class NewsListFragment extends Fragment {
                 if(newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItemPosition == totalItemCount - 1
                         && visibleItemCount > 0) {
-                    new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.APPEND);
+//                    new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.APPEND);
+                    FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.TRUE);
                 }
             }
         });
@@ -105,7 +109,8 @@ public class NewsListFragment extends Fragment {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
+//                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
+                FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.FALSE);
             }
         });
 

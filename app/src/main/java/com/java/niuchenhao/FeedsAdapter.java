@@ -13,17 +13,29 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.java.niuchenhao.bean.ChannelItem;
 import com.java.niuchenhao.bean.FeedItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHolder> {
     private Context context;
-    public FeedsAdapter(Context context, ArrayList<FeedItem>feedItems){
+    private ChannelItem channelItem;
+    public FeedsAdapter(Context context, List<FeedItem> feedItems, ChannelItem channelItem){
         super(feedItems);
         this.context=context;
+        this.channelItem = channelItem;
+        FeedsPresenter.registerAdapter(channelItem, this);
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        FeedsPresenter.unregisterAdapter(channelItem, this);
+        super.finalize();
+    }
+
     @NonNull
     @Override
     public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,6 +54,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
             public void onClick(View v) {
                 holder.current.setHadRead(true);
                 refreshHadRead(holder);
+                FeedsPresenter.addClick(channelItem);
                 NewsContentActivity.actionStart(context, holder.current);
             }
         };
@@ -53,6 +66,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
                 else {
                     holder.Description.setMaxLines(3);
                     holder.current.setHadReadDescription(true);
+//                    FeedsPresenter.update(holder.current);
                 }
                 refreshHadRead(holder);
             }

@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         LitePal.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        ChannelsPresenter.getChannelsPresenter(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Create an adapter that knows which fragment should be shown on each page
         ChannelPagerAdapter adapter = new ChannelPagerAdapter(this, getSupportFragmentManager(), tabLayout);
-        ChannelsPresenter.registerAdapter(adapter);
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);

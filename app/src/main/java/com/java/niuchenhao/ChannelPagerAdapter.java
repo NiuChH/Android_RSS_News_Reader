@@ -18,6 +18,13 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifia
         super(fm);
         this.slidingTabLayout = slidingTabLayout;
         resources = context.getResources();
+        ChannelsPresenter.registerAdapter(this);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        ChannelsPresenter.unregisterAdapter(this);
+        super.finalize();
     }
 
     private ChannelItem getChannelItem(int position){

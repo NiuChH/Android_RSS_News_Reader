@@ -24,6 +24,13 @@ public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.Chan
         Log.d("channel adapter", channelItems.toString());
         ChannelsPresenter.registerAdapter(this);
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        ChannelsPresenter.unregisterAdapter(this);
+        super.finalize();
+    }
+
     @NonNull
     @Override
     public ChannelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
