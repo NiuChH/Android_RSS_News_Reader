@@ -31,24 +31,26 @@ import org.jsoup.*;
 /**
  * Created by rishabh on 31-01-2016.
  */
-public class ReadRss extends AsyncTask<String, Void, Void> {
-    @SuppressLint("StaticFieldLeak")
-    private Context context;
-//    static private String address = "http://www.people.com.cn/rss/game.xml";
+public class ReadRss extends AsyncTask<Integer, Void, Void> {
+    //    static private String address = "http://www.people.com.cn/rss/game.xml";
     private ProgressDialog progressDialog;
 
     private FeedsAdapter adapter;
     private URL url;
     private SwipeRefreshLayout swipeRefreshLayout;
     static boolean firstTime = true;
+    public static final Integer APPEND = 1;
+    public static final Integer REFRESH = 0;
+
     private List<FeedItem> feedItems;
     private List<FeedItem> temp_feedItems;
+    private ChannelItem channelItem;
 
-    public ReadRss(Context context,
+    public ReadRss(ChannelItem channelItem,
                    FeedsAdapter adapter,
                    SwipeRefreshLayout swipeRefreshLayout,
                    List<FeedItem> feedItems) {
-        this.context = context;
+        this.channelItem = channelItem;
         this.adapter = adapter;
         this.feedItems = feedItems;
         this.swipeRefreshLayout = swipeRefreshLayout;
@@ -67,10 +69,9 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
 
     //This method will execute in background so in this method download rss feeds
     @Override
-    protected Void doInBackground(String... addresses) {
+    protected Void doInBackground(Integer... args) {
         //call process xml method to process document we downloaded from getData() method
-        Log.d("addresses", Arrays.toString(addresses));
-        ProcessXml(Getdata(addresses[0]));
+        ProcessXml(Getdata(args[0], args[1]));
         return null;
     }
 
@@ -129,11 +130,11 @@ public class ReadRss extends AsyncTask<String, Void, Void> {
     }
 
     //This method will download rss feed document from specified url
-    public Document Getdata(String address) {
+    public Document Getdata(Integer numbers, Integer mode) {
         Log.d("ReadRSS", "GetData");
         try {
 //            url = new URL(address);
-            Document doc = Jsoup.parse(new URL(address), 6000);
+            Document doc = Jsoup.parse(new URL(channelItem.getXmlUrl()), 6000);
             return doc;
         } catch (Exception e) {
             e.printStackTrace();

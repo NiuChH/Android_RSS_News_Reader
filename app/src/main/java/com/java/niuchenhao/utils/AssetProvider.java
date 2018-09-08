@@ -35,7 +35,7 @@ import java.io.IOException;
  */
 public class AssetProvider extends ContentProvider {
 
-    public static String CONTENT_URI = "com.example.android.actionbarcompat.shareactionprovider";
+    public static String CONTENT_URI = "com.java.niuchenhao";
 
     @Override
     public boolean onCreate() {

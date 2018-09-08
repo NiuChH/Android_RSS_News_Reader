@@ -1,8 +1,9 @@
 package com.java.niuchenhao;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class ChannelItem {
+public class ChannelItem implements Serializable {
     private UUID id;
     private String title;
     private String xmlUrl;

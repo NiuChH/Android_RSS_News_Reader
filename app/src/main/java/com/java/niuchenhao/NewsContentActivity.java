@@ -57,12 +57,24 @@ public class NewsContentActivity extends AppCompatActivity {
         feedItem = (FeedItem) getIntent().getSerializableExtra("news_item");
         WebView webView = findViewById(R.id.web_view);
         WebSettings settings = webView.getSettings();
-        String ua = webView.getSettings().getUserAgentString();
-        webView.getSettings().setUserAgentString(ua + " APP_TAG/5.0.1");
-        settings.setJavaScriptEnabled(true);
+        String ua = settings.getUserAgentString();
+        settings.setUserAgentString(ua + " APP_TAG/5.0.1");
         settings.setBuiltInZoomControls(true);
-        settings.setAppCacheEnabled(true);// 设置缓存
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setSupportMultipleWindows(true);
+        settings.setAppCacheEnabled(true);
+        settings.setAppCacheMaxSize(10 * 1024 * 1024);
+        settings.setAppCachePath("");
+        settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setGeolocationEnabled(true);
+        settings.setSaveFormData(false);
+        settings.setSavePassword(false);
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(feedItem.getLink());
     }

@@ -21,6 +21,7 @@ public class ChannelsPresenter {
     private static List<ChannelAdapter> adapterList = new LinkedList<>();
 
     private static ChannelItem recommendChannelItem =
+            // TODO implement Recommendation
             new ChannelItem("推荐", "http://www.people.com.cn/rss/game.xml");
 
     private ChannelsPresenter(Context context){

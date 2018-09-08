@@ -17,9 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
- * Created by rishabh on 26-02-2016.
- */
 public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHolder> {
     private Context context;
     public FeedsAdapter(Context context, ArrayList<FeedItem>feedItems){
@@ -45,7 +42,6 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
                 holder.current.setHadRead(true);
                 refreshHadRead(holder);
                 NewsContentActivity.actionStart(context, holder.current);
-//                Toast.makeText(context.getApplicationContext(), "click!", Toast.LENGTH_LONG).show();
             }
         };
         holder.Description.setOnClickListener(new View.OnClickListener() {

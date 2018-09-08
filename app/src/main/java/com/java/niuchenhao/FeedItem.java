@@ -13,6 +13,7 @@ public class FeedItem implements Serializable {
     private String description;
     private String pubDate;
     private String thumbnailUrl;
+    private UUID channelId;
     private boolean hadRead;
     private boolean hadReadDescription;
     private ChannelItem channelItem;
@@ -86,5 +87,13 @@ public class FeedItem implements Serializable {
 
     public void setHadReadDescription(boolean hadReadDescription) {
         this.hadReadDescription = hadReadDescription;
+    }
+
+    public UUID getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(UUID channelId) {
+        this.channelId = channelId;
     }
 }

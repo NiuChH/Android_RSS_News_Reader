@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -29,7 +28,7 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter {
     /** Instantiate fragment based on user horizontal scroll position */
     @Override
     public Fragment getItem(int position) {
-        return NewsFragment.newInstance(getChannelItem(position).getXmlUrl());
+        return NewsListFragment.newInstance(getChannelItem(position));
     }
 
     /** Informs the adapter of the total number of available fragments views */

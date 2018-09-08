@@ -1,17 +1,13 @@
 package com.java.niuchenhao;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresPermission;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +16,15 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NewsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NewsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class NewsFragment extends Fragment {
+public class NewsListFragment extends Fragment {
 
-    private static final String ARG_XML_URL = "xmlUrl";
+//    private static final String ARG_XML_URL = "xmlUrl";
 
-    private String xmlUrl;
+    private static final String ARG_CHANNEL_ITEM = "channel item";
+
+    private ChannelItem channelItem;
+
+//    private String xmlUrl;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -44,21 +36,14 @@ public class NewsFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    public NewsFragment() {
+    public NewsListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param xmlUrl Parameter 1.
-     * @return A new instance of fragment NewsFragment.
-     */
-    public static NewsFragment newInstance(String xmlUrl) {
-        NewsFragment fragment = new NewsFragment();
+    public static NewsListFragment newInstance(ChannelItem channelItem) {
+        NewsListFragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_XML_URL, xmlUrl);
+        args.putSerializable(ARG_CHANNEL_ITEM, channelItem);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,14 +51,16 @@ public class NewsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            xmlUrl = getArguments().getString(ARG_XML_URL);
-            Log.d("ARG_XML_URL", xmlUrl);
+        try{
+            channelItem = (ChannelItem) getArguments().getSerializable(ARG_CHANNEL_ITEM);
             feedItems = new ArrayList<>();
             adapter = new FeedsAdapter(getContext(), feedItems);
-
-        } else {
-            Log.e("ARG_XML_URL", "empty!");
+        } catch (ClassCastException e){
+            Log.e("ARG_CHANNEL_ITEM", "not a channelIte!");
+            e.printStackTrace();
+        } catch (NullPointerException e){
+            Log.e("ARG_CHANNEL_ITEM", "empty!");
+            e.printStackTrace();
         }
     }
 
@@ -92,16 +79,33 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         //Call Read rss async task to fetch rss
 
-        Log.d("ARG_XML_URL", xmlUrl);
-        new ReadRss(context, adapter, swipeRefresh, feedItems).execute(xmlUrl);
+        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int totalItemCount = recyclerView.getAdapter().getItemCount();
+                int lastVisibleItemPosition = lm.findLastVisibleItemPosition();
+                int visibleItemCount = recyclerView.getChildCount();
+
+                if(newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItemPosition == totalItemCount - 1
+                        && visibleItemCount > 0) {
+                    new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.APPEND);
+                }
+            }
+        });
+
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new ReadRss(context, adapter, swipeRefresh, feedItems).execute(xmlUrl);
+                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
             }
         });
+
         return rootView;
     }
 //
