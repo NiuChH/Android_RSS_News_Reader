@@ -3,18 +3,13 @@ package com.java.niuchenhao.utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.java.niuchenhao.ChannelItem;
-import com.java.niuchenhao.R;
+import com.java.niuchenhao.bean.ChannelItem;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;

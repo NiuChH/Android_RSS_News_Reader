@@ -1,10 +1,8 @@
 package com.java.niuchenhao;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Adapter;
 
+import com.java.niuchenhao.bean.ChannelItem;
 import com.java.niuchenhao.utils.OpmlReader;
 
 import java.util.ArrayList;

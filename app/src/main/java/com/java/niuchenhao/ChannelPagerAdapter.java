@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.flyco.tablayout.SlidingTabLayout;
+import com.java.niuchenhao.bean.ChannelItem;
 
 public class ChannelPagerAdapter extends FragmentPagerAdapter {
 

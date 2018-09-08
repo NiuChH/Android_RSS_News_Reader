@@ -1,28 +1,20 @@
 package com.java.niuchenhao;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
+
+import com.java.niuchenhao.bean.ChannelItem;
+import com.java.niuchenhao.bean.FeedItem;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

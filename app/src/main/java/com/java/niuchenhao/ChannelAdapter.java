@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.java.niuchenhao.bean.ChannelItem;
 
 import java.util.List;
 

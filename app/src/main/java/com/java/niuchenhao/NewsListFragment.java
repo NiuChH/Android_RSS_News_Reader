@@ -3,7 +3,6 @@ package com.java.niuchenhao;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.java.niuchenhao.bean.ChannelItem;
+import com.java.niuchenhao.bean.FeedItem;
 
 import java.util.ArrayList;
 

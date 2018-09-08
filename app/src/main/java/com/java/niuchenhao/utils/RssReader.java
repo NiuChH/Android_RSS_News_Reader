@@ -3,8 +3,8 @@ package com.java.niuchenhao.utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.java.niuchenhao.ChannelItem;
-import com.java.niuchenhao.FeedItem;
+import com.java.niuchenhao.bean.ChannelItem;
+import com.java.niuchenhao.bean.FeedItem;
 
 import java.io.IOException;
 import java.net.URL;
