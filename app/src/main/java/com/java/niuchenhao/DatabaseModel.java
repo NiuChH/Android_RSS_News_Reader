@@ -1,7 +1,9 @@
 package com.java.niuchenhao;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,6 +12,7 @@ import com.java.niuchenhao.bean.FeedItem;
 import com.java.niuchenhao.utils.OpmlReader;
 
 import org.litepal.LitePal;
+import org.litepal.LitePalApplication;
 import org.litepal.LitePalDB;
 import org.litepal.crud.callback.FindMultiCallback;
 import org.litepal.parser.LitePalParser;
@@ -27,13 +30,18 @@ import okhttp3.Response;
 public class DatabaseModel {
     private static DatabaseModel databaseModel = new DatabaseModel();
 
-    private static boolean isOnline = true;
+    private static boolean isOnline = false;
 
     final private static String URL_STRING = "http://localhost";
 
     final private static Gson gson = new Gson();
 
-    private DatabaseModel(){}
+    private DatabaseModel(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) LitePalApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        isOnline =(connectivityManager != null &&
+                connectivityManager.getActiveNetworkInfo() != null &&
+                connectivityManager.getActiveNetworkInfo().isAvailable());
+    }
 
     private static FindMultiCallback getNotifyCallBack(final ChannelItem channelItem, final Boolean isAppend, final List<FeedItem> feedItemList){
         return new FindMultiCallback() {
@@ -72,7 +80,7 @@ public class DatabaseModel {
         List<ChannelItem> result = OpmlReader.readData(context);
         try {
             LitePal.saveAll(result);  // TODO is this necessary?
-        } catch (Exception ignored){}
+        } catch (Exception ignore){}
         return result;
     }
 
@@ -90,8 +98,8 @@ public class DatabaseModel {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     // TODO this is for DEBUG
-                    new FeedItem().save();
-//                    getFeedsAsyncFromDB(channelItem, keyWord, number, isAppend, feedItemList);
+//                    new FeedItem().save();
+                    getFeedsAsyncFromDB(channelItem, keyWord, number, isAppend, feedItemList);
                 }
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -102,17 +110,35 @@ public class DatabaseModel {
                     feedItemList.addAll(result);
                     FeedsPresenter.notifyAdapter(channelItem);
                     for(FeedItem feedItem: result)
-                        if(!LitePal.isExist(FeedItem.class, "link = ?", feedItem.getLink()))
+                        if(!LitePal.isExist(FeedItem.class, "link == ?", feedItem.getLink()))
                             feedItem.save();
-//                    LitePal.saveAll(result);
                 }
             });
         } else {
+//            new FeedItem().save();
             getFeedsAsyncFromDB(channelItem, keyWord, number, isAppend, feedItemList);
         }
     }
 
     /***********  for server  ***********/
+
+    private static void sendOkHttpRequest(final String[] args, final okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(args[0])
+                .addHeader("xmlUrl", args[1]);
+        if(args[2] != null)
+            requestBuilder.addHeader("keyWord", args[2]);
+        client.newCall(
+                requestBuilder
+                        .addHeader("number", args[3])
+                        .addHeader("isAppend", args[4])
+                        .addHeader("offset", args[5])
+                        .build()
+        ).enqueue(callback);
+    }
+}
+
 
 //    private static void getFeedsAsyncFromServer(ChannelItem channelItem, String keyWord, Integer number, Boolean isAppend, List<FeedItem> feedItemList){
 //        new AsyncTask<Void, Void, Void>() {
@@ -168,19 +194,3 @@ public class DatabaseModel {
 //        }
 //    }
 
-    public static void sendOkHttpRequest(final String[] args, final okhttp3.Callback callback) {
-        OkHttpClient client = new OkHttpClient();
-        Request.Builder requestBuilder = new Request.Builder()
-                .url(args[0])
-                .addHeader("xmlUrl", args[1]);
-        if(args[2] != null)
-            requestBuilder.addHeader("keyWord", args[2]);
-        client.newCall(
-                requestBuilder
-                    .addHeader("number", args[3])
-                    .addHeader("isAppend", args[4])
-                    .addHeader("offset", args[5])
-                    .build()
-        ).enqueue(callback);
-    }
-}
