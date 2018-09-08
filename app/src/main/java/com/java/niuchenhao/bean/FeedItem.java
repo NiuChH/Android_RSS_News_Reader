@@ -4,29 +4,25 @@ import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.UUID;
 
 public class FeedItem extends LitePalSupport implements Serializable {
 
     @Column(unique = true)
-    private UUID id;
     private String title;
+    @Column(unique = true)
     private String link;
     private String description;
-    private String pubDate;
+    private Date pubDate;
     private String thumbnailUrl;
-    private UUID channelId;
     private boolean hadRead;
     private boolean hadReadDescription;
     private ChannelItem channelItem;
 
     public FeedItem(){
-        id = UUID.randomUUID();
         hadRead = false;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+        hadReadDescription = false;
     }
 
     public boolean isHadRead() {
@@ -44,8 +40,6 @@ public class FeedItem extends LitePalSupport implements Serializable {
     public boolean hadRead() {
         return hadRead;
     }
-
-    public UUID getId() { return id;}
 
     public String getTitle() {
         return title;
@@ -71,11 +65,15 @@ public class FeedItem extends LitePalSupport implements Serializable {
         this.description = description;
     }
 
-    public String getPubDate() {
+    public Date getPubDate() {
         return pubDate;
     }
 
     public void setPubDate(String pubDate) {
+        this.pubDate = Date.valueOf(pubDate);
+    }
+
+    public void setPubDate(Date pubDate) {
         this.pubDate = pubDate;
     }
 
@@ -103,11 +101,5 @@ public class FeedItem extends LitePalSupport implements Serializable {
         this.hadReadDescription = hadReadDescription;
     }
 
-    public UUID getChannelId() {
-        return channelId;
-    }
 
-    public void setChannelId(UUID channelId) {
-        this.channelId = channelId;
-    }
 }

@@ -3,6 +3,7 @@ package com.java.niuchenhao.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.java.niuchenhao.R;
 import com.java.niuchenhao.bean.ChannelItem;
 
 import java.io.IOException;
@@ -25,11 +26,11 @@ public class OpmlReader {
 
     private static ArrayList<ChannelItem> li = new ArrayList<>();
 
-    public static List<ChannelItem> readData(Context context, String fileName){
+    public static List<ChannelItem> readData(Context context){
         InputStream inStream;
         String data = null;
         try {
-            inStream = context.getAssets().open(fileName);     //打开assets目录中的文本文件
+            inStream = context.getAssets().open(context.getResources().getString(R.string.opml_filename));     //打开assets目录中的文本文件
             byte[] bytes = new byte[inStream.available()];  //inStream.available()为文件中的总byte数
             inStream.read(bytes);
             inStream.close();

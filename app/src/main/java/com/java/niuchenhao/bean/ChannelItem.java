@@ -9,25 +9,16 @@ import java.util.UUID;
 public class ChannelItem extends LitePalSupport implements Serializable {
 
     @Column(unique = true)
-    private UUID id;
     private String title;
+    @Column(unique = true)
     private String xmlUrl;
     private int clickCount;
     private boolean checked;
 
     public ChannelItem(String title, String xmlUrl){
-        id = UUID.randomUUID();
         clickCount = 0;
         this.title = title;
         this.xmlUrl = xmlUrl;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getTitle() {

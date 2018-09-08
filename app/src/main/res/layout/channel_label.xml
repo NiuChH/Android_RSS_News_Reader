@@ -32,7 +32,6 @@
             android:gravity="center"
             android:lines="1"
             android:padding="8dp"
-            android:text="测试频道"
             android:textAppearance="?android:attr/textAppearanceMediumInverse" />
 
     </LinearLayout>

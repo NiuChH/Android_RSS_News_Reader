@@ -59,7 +59,7 @@ public class NewsListFragment extends Fragment {
             channelItem = (ChannelItem) getArguments().getSerializable(ARG_CHANNEL_ITEM);
             feedItems = FeedsPresenter.getFeedItemList(channelItem);
             adapter = new FeedsAdapter(getContext(), feedItems, channelItem);
-            FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.TRUE);
+            FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.TRUE);
         } catch (ClassCastException e){
             Log.e("ARG_CHANNEL_ITEM", "not a channelIte!");
             e.printStackTrace();
@@ -85,7 +85,7 @@ public class NewsListFragment extends Fragment {
         //Call Read rss async task to fetch rss
 
 //        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
-        FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.FALSE);
+        FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.FALSE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -99,7 +99,7 @@ public class NewsListFragment extends Fragment {
                         && lastVisibleItemPosition == totalItemCount - 1
                         && visibleItemCount > 0) {
 //                    new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.APPEND);
-                    FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.TRUE);
+                    FeedsPresenter.queryFeedItemList(channelItem,null, 10, Boolean.TRUE);
                 }
             }
         });
@@ -110,7 +110,7 @@ public class NewsListFragment extends Fragment {
             @Override
             public void onRefresh() {
 //                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
-                FeedsPresenter.queryFeedItemList(channelItem, 10, Boolean.FALSE);
+                FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.FALSE);
             }
         });
 

@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         LitePal.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
+        ChannelsPresenter.initChannelsPresenter(getApplicationContext());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

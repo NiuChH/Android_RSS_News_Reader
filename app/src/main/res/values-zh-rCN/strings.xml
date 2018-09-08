@@ -5,4 +5,8 @@
     <string name="title_activity_news_content">新闻详情</string>
     <string name="menu_share">分享</string>
     <string name="customize_channels">频道设置</string>
+    <string name="recommend">推荐</string>
+    <string name="opml_filename">opml.xml</string>
+    <string name="more_channels">更多频道</string>
+    <string name="my_channels">我的频道</string>
 </resources>

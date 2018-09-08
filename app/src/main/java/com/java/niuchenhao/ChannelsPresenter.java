@@ -17,13 +17,14 @@ public class ChannelsPresenter extends BasePresenter {
     private static List<ChannelItem> uncheckedChannels;
 
     private static ChannelItem recommendChannelItem =
-            // TODO implement Recommendation
+            // just a example
             new ChannelItem("推荐", "http://www.people.com.cn/rss/game.xml");
 
-    private ChannelsPresenter(){
+    private ChannelsPresenter(){}
 
-        // TODO get form db(sync)
-        //channelItemArrayList = OpmlReader.readData(context, "opml.xml");
+    public static void initChannelsPresenter(Context context){
+
+        channelItemArrayList = DatabaseModel.getChannelsSync(context);
 
         checkedChannels = new ArrayList<>(channelItemArrayList.subList(0, 3));
         uncheckedChannels = new ArrayList<>(channelItemArrayList.subList(3, channelItemArrayList.size()));
@@ -43,7 +44,7 @@ public class ChannelsPresenter extends BasePresenter {
 
     public static void toggleCheck(ChannelItem item){
         for(ChannelItem i: checkedChannels){
-            if(i.getId().equals(item.getId())) {
+            if(i.getXmlUrl().equals(item.getXmlUrl())) {
                 checkedChannels.remove(i);
                 uncheckedChannels.add(i);
                 notifyAdapter();
@@ -51,7 +52,7 @@ public class ChannelsPresenter extends BasePresenter {
             }
         }
         for(ChannelItem i: uncheckedChannels){
-            if(i.getId().equals(item.getId())) {
+            if(i.getXmlUrl().equals(item.getXmlUrl())) {
                 checkedChannels.add(i);
                 uncheckedChannels.remove(i);
                 notifyAdapter();

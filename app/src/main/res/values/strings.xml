@@ -4,4 +4,8 @@
     <string name="title_activity_news_content">NewsContentActivity</string>
     <string name="menu_share">share it!</string>
     <string name="customize_channels">Customize Channels</string>
+    <string name="recommend">Recommend</string>
+    <string name="opml_filename">opml.xml</string>
+    <string name="more_channels">more channels</string>
+    <string name="my_channels">my channels</string>
 </resources>

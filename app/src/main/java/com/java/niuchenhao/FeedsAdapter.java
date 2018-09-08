@@ -71,7 +71,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
                 refreshHadRead(holder);
             }
         });
-        holder.Date.setText(holder.current.getPubDate());
+        holder.Date.setText(holder.current.getPubDate().toString());
         Picasso.with(context).load(holder.current.getThumbnailUrl()).into(holder.Thumbnail);
         holder.Thumbnail.setOnClickListener(clickOpenUrl);
         holder.Title.setOnClickListener(clickOpenUrl);

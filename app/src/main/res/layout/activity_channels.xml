@@ -19,7 +19,7 @@
             style="@style/manage_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的栏目"/>
+            android:text="@string/my_channels"/>
 
     </LinearLayout>
 
@@ -40,7 +40,7 @@
             style="@style/manage_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="更多栏目"/>
+            android:text="@string/more_channels"/>
 
     </LinearLayout>
 

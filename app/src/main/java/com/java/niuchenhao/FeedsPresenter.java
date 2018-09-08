@@ -27,12 +27,8 @@ public class FeedsPresenter extends BasePresenter{
         return dataMap.get(channelItem);
     }
 
-    public static void queryFeedItemList(ChannelItem channelItem, Integer number, Boolean isAppend){
-
-    }
-
-    public static void queryFeedItemList(String keyWord, Integer number, Boolean isAppend){
-
+    public static void queryFeedItemList(ChannelItem channelItem, String keyWord, Integer number, Boolean isAppend){
+        DatabaseModel.getFeedsAsync(channelItem, keyWord, number, isAppend, dataMap.get(channelItem));
     }
 
     public static void addComment(FeedItem feedItem){

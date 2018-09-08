@@ -22,9 +22,9 @@ public class BasePresenter {
         }
     }
 
-    public static BasePresenter getPresenter(){
-        return mPresenter;
-    }
+//    public static BasePresenter getPresenter(){
+//        return mPresenter;
+//    }
 
     protected static void notifyAdapter(){
         for(Notifiable adapter : adapterList)

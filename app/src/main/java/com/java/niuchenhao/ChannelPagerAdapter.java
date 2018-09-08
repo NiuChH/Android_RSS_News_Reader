@@ -48,6 +48,8 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifia
     /** Set tab title */
     @Override
     public CharSequence getPageTitle(int position) {
+        if(position == 0)
+            return " "+resources.getString(R.string.recommend)+" ";
         return " "+getChannelItem(position).getTitle()+" ";
     }
 
@@ -58,6 +60,7 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifia
     }
 
     public void notifyDiff(){
+        slidingTabLayout.setCurrentTab(0);
         notifyDataSetChanged();
     }
 }

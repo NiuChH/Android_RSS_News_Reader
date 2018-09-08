@@ -54,7 +54,7 @@ public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.Chan
 
     @Override
     protected boolean areItemsTheSame(ChannelItem oldItem, ChannelItem newItem) {
-        return oldItem.getId().equals(newItem.getId());
+        return oldItem.getXmlUrl().equals(newItem.getXmlUrl());
     }
 
     @Override
