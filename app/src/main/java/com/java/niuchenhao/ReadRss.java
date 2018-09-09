@@ -83,6 +83,7 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
     // In this method we will process Rss feed  document we downloaded to parse useful information from it
 
     private Boolean ProcessXml(Document data, Integer numbers, Integer mode) {
+        FeedItem feedItemFromDB;
         if (data != null) {
             temp_feedItems = new ArrayList<>();
             Elements items = data.getElementsByTag("item");
@@ -116,8 +117,13 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
                             break;
                     }
                 }
-                if(feeditem.getDescription().length() >= 20)
+                feedItemFromDB = LitePal.where("link = ?", feeditem.getLink()).findFirst(FeedItem.class);
+                if(feedItemFromDB!=null)
+                    temp_feedItems.add(feedItemFromDB);
+                else if(feeditem.getDescription().length() >= 20) {
                     temp_feedItems.add(feeditem);
+                    feeditem.saveAsync();
+                }
                 if(temp_feedItems.size() > numbers)
                     break;
             }
@@ -131,7 +137,6 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
             Log.e("ReadRss", "get empty data");
             return Boolean.FALSE;
         }
-        DatabaseModel.updateFeedItem(temp_feedItems);
         return Boolean.TRUE;
     }
 

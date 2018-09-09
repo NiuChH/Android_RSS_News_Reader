@@ -4,6 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.java.niuchenhao"
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1

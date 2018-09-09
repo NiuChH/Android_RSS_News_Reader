@@ -14,4 +14,5 @@
     <string name="title_activity_search">Search For News</string>
     <string name="search_hint">enter your keyword!</string>
     <string name="favourite">favourite</string>
+    <string name="unfavourite">unfavourite</string>
 </resources>

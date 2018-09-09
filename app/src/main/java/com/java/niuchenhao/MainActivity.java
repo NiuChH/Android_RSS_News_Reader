@@ -1,6 +1,9 @@
 package com.java.niuchenhao;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.favourite:
-                Toast.makeText(this, "You clicked favourite", Toast.LENGTH_SHORT).show();
+                FavouriteActivity.actionStart(this);
                 break;
             case R.id.search:
                 SearchActivity.actionStart(this);
@@ -79,12 +82,24 @@ public class MainActivity extends AppCompatActivity {
                 ChannelsActivity.actionStart(this);
                 break;
             case R.id.settings:
-                Toast.makeText(this, "You clicked settings", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.dialog_deleteAll)
+                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                LitePal.deleteDatabase("database");
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create().show();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
-
 }

@@ -113,12 +113,25 @@ public class DatabaseModel {
 
     public static List<ChannelItem> getChannelsSync(Context context) {
         List<ChannelItem> result = OpmlReader.readData(context);
+        ChannelItem ciDB;
+        for(ChannelItem channelItem: result){
+            ciDB = LitePal.where("xmlurl = ?", channelItem.getXmlUrl()).findFirst(ChannelItem.class);
+            if(ciDB == null)
+                channelItem.save();
+            else {
+                channelItem.setClickCount(ciDB.getClickCount());
+                channelItem.setChecked(ciDB.isChecked());
+            }
+        }
+
         updateChannelItem(result);
         return result;
     }
 
     public static void getFeedsAsync(final ChannelItem channelItem, final String keyWord, final Integer number, final Boolean isAppend, final List<FeedItem> feedItemList) {
-        if ((!useServer) && isOnline && keyWord == null) {
+        if(channelItem.getTitle().equals(ChannelsPresenter.getRecommendChannelItem().getTitle())){
+            getRecommend(channelItem, feedItemList);
+        }else if ((!useServer) && isOnline && keyWord == null) {
             new ReadRss(channelItem, feedItemList).execute(number, isAppend ? 1 : 0);
             Log.d(TAG, "using ReadRss");
             Log.d(TAG, useServer+ " " + isOnline);
@@ -161,6 +174,26 @@ public class DatabaseModel {
         LitePal.where("favourite = 1")
                 .findAsync(FeedItem.class)
                 .listen(getNotifyCallBack(null, false, feedItemList));
+    }
+
+    public static void getRecommend(final ChannelItem channelItem, final List<FeedItem> feedItemList){
+        LitePal.order("clickcount desc").limit(3).findAsync(ChannelItem.class).listen(new FindMultiCallback() {
+            @Override
+            public <T> void onFinish(List<T> t) {
+                Log.d("Recommend", ((ChannelItem)t.get(0)).getXmlUrl());
+                Log.d("Recommend", ((ChannelItem)t.get(1)).getXmlUrl());
+                feedItemList.addAll(
+                        LitePal.order("longdate desc")
+                                .where("channeltitle in (?,?,?)",
+                                        ((ChannelItem)t.get(0)).getTitle(),
+                                        ((ChannelItem)t.get(1)).getTitle(),
+                                        ((ChannelItem)t.get(2)).getTitle())
+                                .limit(30)
+                                .find(FeedItem.class)
+                );
+                FeedsPresenter.notifyAdapter(channelItem);
+            }
+        });
     }
 
     /***********  for server  ***********/

@@ -33,13 +33,13 @@
         android:id="@+id/menu_share"
         android:title="@string/menu_share"
         support:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        support:showAsAction="always" />
+        support:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_favourite"
         android:title="@string/favourite"
         android:icon="@drawable/ic_favorite_border_black_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
 
 </menu>

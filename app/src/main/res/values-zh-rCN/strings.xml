@@ -14,4 +14,5 @@
     <string name="title_activity_search">搜索新闻</string>
     <string name="search_hint">请输入关键词</string>
     <string name="favourite">收藏</string>
+    <string name="unfavourite">取消收藏</string>
 </resources>

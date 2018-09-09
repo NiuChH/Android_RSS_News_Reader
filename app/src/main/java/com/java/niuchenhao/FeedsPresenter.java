@@ -60,6 +60,10 @@ public class FeedsPresenter extends BasePresenter{
     }
 
     public static void toggleFavourite(FeedItem feedItem){
+        if(feedItem.isFavourite()){
+            dataMap.get(FavouriteActivity.channelItem).add(feedItem);
+        } else
+            dataMap.get(FavouriteActivity.channelItem).remove(feedItem);
         DatabaseModel.updateFeedItem(feedItem);
         notifyAdapter(FavouriteActivity.channelItem);
     }
@@ -71,7 +75,8 @@ public class FeedsPresenter extends BasePresenter{
             Log.d("FeedsPresenter", swipeRefreshLayoutMap.get(channelItem)+"swipeRefreshLayout.setRefreshing(false)");
             swipeRefreshLayoutMap.get(channelItem).setRefreshing(false);
         }
-        adapterMap.get(channelItem).notifyDiff();
+        if(adapterMap.get(channelItem) != null)
+            adapterMap.get(channelItem).notifyDiff();
     }
 
     public static List<FeedItem> getFavourites() {
