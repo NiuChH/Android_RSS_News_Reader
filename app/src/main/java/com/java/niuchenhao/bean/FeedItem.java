@@ -93,8 +93,7 @@ public class FeedItem extends LitePalSupport implements Serializable {
     public void setPubDate(String pubDate) {
         Log.d("setPubDate", pubDate);
         try {
-            this.longDate = new SimpleDateFormat("YYYY-MM-dd", Locale.CHINA).parse(pubDate).getTime();
-
+            this.longDate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(pubDate).getTime();
         } catch (ParseException e) {
             try {
                 this.longDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US).parse(pubDate).getTime();

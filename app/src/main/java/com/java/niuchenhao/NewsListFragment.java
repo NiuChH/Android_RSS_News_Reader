@@ -112,6 +112,7 @@ public class NewsListFragment extends Fragment {
             public void onRefresh() {
 //                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
                 FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.FALSE);
+//                swipeRefresh.setRefreshing(false);
             }
         });
 

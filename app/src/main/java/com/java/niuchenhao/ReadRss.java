@@ -109,21 +109,10 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
                                 feeditem.setThumbnailUrl("file:///android_asset/rss_loge.gif");
                             break;
                         case "pubDate":
-//                            try {
                                 feeditem.setPubDate(e.text());
-//                            } catch (IllegalAccessError iae){
-//                                try {
-//                                    Date df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US).parse(e.text());
-//                                    feeditem.setPubDate(new SimpleDateFormat("YYYY-MM-dd", Locale.CHINA).format(df));
-//                                } catch (Exception e1) {
-//                                    e1.printStackTrace();
-//                                    Log.d(TAG, e.text());
-//                                }
-//                            }
                             break;
                         case "link":
                             feeditem.setLink(e.text());
-//                            Log.d("ele", e.tagName()+" "+e.text());
                             break;
                     }
                 }

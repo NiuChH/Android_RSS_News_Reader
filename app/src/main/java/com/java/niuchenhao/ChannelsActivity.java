@@ -76,14 +76,22 @@ public class ChannelsActivity extends AppCompatActivity {
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
                 // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,
                 //STRATEGY_FILL_SPACE or STRATEGY_CENTER
-                .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER)
+                .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
                 // whether strategy is applied to last row. FALSE by default
-                .withLastRow(true)
+//                .withLastRow(true)
                 .build();
         recyclerView.setLayoutManager(chipsLayoutManager);
     }
 
-//    private int dp2px(float value) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //    private int dp2px(float value) {
 //        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, getResources().getDisplayMetrics());
 //    }
 

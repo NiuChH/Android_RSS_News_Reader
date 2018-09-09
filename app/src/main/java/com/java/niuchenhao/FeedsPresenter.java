@@ -52,7 +52,7 @@ public class FeedsPresenter extends BasePresenter{
     public static void notifyAdapter(ChannelItem channelItem){
         if(swipeRefreshLayoutMap.get(channelItem) != null) {
             Log.d("FeedsPresenter", swipeRefreshLayoutMap.get(channelItem)+"swipeRefreshLayout.setRefreshing(false)");
-            swipeRefreshLayoutMap.get(channelItem);
+            swipeRefreshLayoutMap.get(channelItem).setRefreshing(false);
         }
         adapterMap.get(channelItem).notifyDiff();
     }
