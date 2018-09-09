@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ChannelsPresenter.initChannelsPresenter(getApplicationContext());
+        FeedsPresenter.init();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.favourite:
+                Toast.makeText(this, "You clicked favourite", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.search:
-                Toast.makeText(this, "You clicked Search", Toast.LENGTH_SHORT).show();
                 SearchActivity.actionStart(this);
                 break;
             case R.id.add_channel:
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "You clicked settings", Toast.LENGTH_SHORT).show();
                 break;
             default:
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }

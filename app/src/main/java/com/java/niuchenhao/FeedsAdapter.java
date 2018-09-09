@@ -200,7 +200,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         }
 
         public String getId(){
-            return current.getLink().replaceAll("[^a-zA-Z0-9.]", "_");
+            return current.getFilename();
         }
 
         ImageView Thumbnail;

@@ -22,7 +22,8 @@
   (actionProviderClass, actionViewClass, actionLayout).
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:support="http://schemas.android.com/apk/res-auto">
+    xmlns:support="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
 
     <!--
       To use ShareActionProvider, we reference the class by set the
@@ -33,5 +34,12 @@
         android:title="@string/menu_share"
         support:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         support:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_favourite"
+        android:title="@string/favourite"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        app:showAsAction="ifRoom"
+        />
 
 </menu>

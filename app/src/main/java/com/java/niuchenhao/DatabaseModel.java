@@ -93,13 +93,27 @@ public class DatabaseModel {
 
     /***********  for Presenters  ***********/
 
+    public static void updateFeedItem(FeedItem feedItem){
+        feedItem.saveOrUpdate("link = ?", feedItem.getLink());
+    }
+
+    public static void updateFeedItem(Collection<FeedItem> feedItems){
+        for(FeedItem feedItem: feedItems)
+            updateFeedItem(feedItem);
+    }
+
+    public static void updateChannelItem(ChannelItem channelItem){
+        channelItem.saveOrUpdate("xmlurl = ?", channelItem.getXmlUrl());
+    }
+
+    public static void updateChannelItem(Collection<ChannelItem> channelItems){
+        for(ChannelItem channelItem: channelItems)
+            updateChannelItem(channelItem);
+    }
+
     public static List<ChannelItem> getChannelsSync(Context context) {
         List<ChannelItem> result = OpmlReader.readData(context);
-        try {
-            LitePal.deleteAll(ChannelItem.class);
-            LitePal.saveAll(result);  // TODO is this necessary?
-        } catch (Exception ignore) {
-        }
+        updateChannelItem(result);
         return result;
     }
 
@@ -141,6 +155,12 @@ public class DatabaseModel {
         } else {
             getFeedsAsyncFromDB(channelItem, keyWord, number, isAppend, feedItemList);
         }
+    }
+
+    public static void getFavourites(final List<FeedItem> feedItemList){
+        LitePal.where("favourite = 1")
+                .findAsync(FeedItem.class)
+                .listen(getNotifyCallBack(null, false, feedItemList));
     }
 
     /***********  for server  ***********/

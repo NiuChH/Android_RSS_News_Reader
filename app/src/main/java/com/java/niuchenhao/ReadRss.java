@@ -131,11 +131,7 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
             Log.e("ReadRss", "get empty data");
             return Boolean.FALSE;
         }
-        for (FeedItem feedItem : temp_feedItems)
-            try {
-            //TODO optimize this!
-                feedItem.save();
-            } catch (Exception ignored){}
+        DatabaseModel.updateFeedItem(temp_feedItems);
         return Boolean.TRUE;
     }
 
