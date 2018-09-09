@@ -27,29 +27,44 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class DatabaseModel {
     private static DatabaseModel databaseModel = new DatabaseModel();
 
-    private static boolean isOnline = false;
+    public static void setIsOnline(boolean isOnline) {
+        DatabaseModel.isOnline = isOnline;
+    }
 
-    final private static String URL_STRING = "http://localhost";
+    private static boolean isOnline;
+
+    private static boolean useServer;
+
+    final private static String URL_STRING = "http://183.172.152.155:9999";
 
     final private static Gson gson = new Gson();
 
-    private DatabaseModel(){
+    private DatabaseModel() {
         ConnectivityManager connectivityManager = (ConnectivityManager) LitePalApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        isOnline =(connectivityManager != null &&
+        isOnline = (connectivityManager != null &&
                 connectivityManager.getActiveNetworkInfo() != null &&
                 connectivityManager.getActiveNetworkInfo().isAvailable());
+        useServer = false;
+        Log.i("is online: ", String.valueOf(isOnline));
+        Log.i("using server: ", String.valueOf(useServer));
     }
 
-    private static FindMultiCallback getNotifyCallBack(final ChannelItem channelItem, final Boolean isAppend, final List<FeedItem> feedItemList){
+    private static FindMultiCallback getNotifyCallBack(final ChannelItem channelItem, final Boolean isAppend, final List<FeedItem> feedItemList) {
         return new FindMultiCallback() {
             @Override
             public <T> void onFinish(List<T> t) {
-                if(!isAppend)
+                if (!isAppend)
                     feedItemList.clear();
-                feedItemList.addAll((List<FeedItem>)t);
+                feedItemList.addAll((List<FeedItem>) t);
+                Log.d(TAG, "FindMultiCallback");
+                for(FeedItem fi: feedItemList){
+                    Log.d(TAG, fi.getTitle());
+                }
                 FeedsPresenter.notifyAdapter(channelItem);
             }
         };
@@ -59,63 +74,71 @@ public class DatabaseModel {
 
 
     private static void getFeedsAsyncFromDB(ChannelItem channelItem, String keyWord, Integer number, Boolean isAppend, List<FeedItem> feedItemList) {
-        if(keyWord == null){
-            if(isAppend)
-                LitePal.order("pubDate desc").limit(number).offset(feedItemList.size()).findAsync(FeedItem.class).listen(getNotifyCallBack(channelItem, true, feedItemList));
-            else
-                LitePal.order("pubDate desc").limit(number).findAsync(FeedItem.class).listen(getNotifyCallBack(channelItem, false, feedItemList));
-        }else if (isAppend)
-            LitePal.order("pubDate desc").limit(number).offset(feedItemList.size()).where("title contains ?", keyWord).findAsync(FeedItem.class).listen(getNotifyCallBack(channelItem, true, feedItemList));
-        else
-            LitePal.order("pubDate desc").limit(number).where("title contains ?", keyWord).findAsync(FeedItem.class).listen(getNotifyCallBack(channelItem, false, feedItemList));
+        Integer offset = isAppend ? feedItemList.size() : 0;
+        //TODO add sort by date
+        if (keyWord == null) {
+            Log.d(TAG, channelItem.getTitle());
+            LitePal.where("channeltitle = ?", channelItem.getTitle())
+                    .limit(number)
+                    .offset(offset)
+                    .findAsync(FeedItem.class)
+                    .listen(getNotifyCallBack(channelItem, isAppend, feedItemList));
+        } else
+            LitePal.where("title contains ?", keyWord)
+                    .limit(number)
+                    .offset(offset)
+                    .findAsync(FeedItem.class)
+                    .listen(getNotifyCallBack(channelItem, isAppend, feedItemList));
     }
-
-//    private static void addAll(List<LitePalSupport> items){
-//        LitePal.saveAllAsync(items);
-//    }
 
     /***********  for Presenters  ***********/
 
-    public static List<ChannelItem> getChannelsSync(Context context){
+    public static List<ChannelItem> getChannelsSync(Context context) {
         List<ChannelItem> result = OpmlReader.readData(context);
         try {
+            LitePal.deleteAll(ChannelItem.class);
             LitePal.saveAll(result);  // TODO is this necessary?
-        } catch (Exception ignore){}
+        } catch (Exception ignore) {
+        }
         return result;
     }
 
-    public static void getFeedsAsync(final ChannelItem channelItem, final String keyWord, final Integer number, final Boolean isAppend, final List<FeedItem> feedItemList){
-        if(isOnline){
-            final String [] headers = {
+    public static void getFeedsAsync(final ChannelItem channelItem, final String keyWord, final Integer number, final Boolean isAppend, final List<FeedItem> feedItemList) {
+        if ((!useServer) && isOnline) {
+            new ReadRss(channelItem, feedItemList).execute(number, isAppend ? 1 : 0);
+            Log.d(TAG, "using ReadRss");
+            Log.d(TAG, useServer+ " " + isOnline);
+        } else if (isOnline) {
+            final String[] headers = {
                     URL_STRING,
                     channelItem.getXmlUrl(),
                     keyWord,
                     number.toString(),
                     isAppend.toString(),
                     String.valueOf(feedItemList.size())};
-//            getFeedsAsyncFromServer(channelItem, keyWord, number, isAppend, feedItemList);
             sendOkHttpRequest(headers, new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    // TODO this is for DEBUG
-//                    new FeedItem().save();
+                    useServer = false;
                     getFeedsAsyncFromDB(channelItem, keyWord, number, isAppend, feedItemList);
                 }
+
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if(!isAppend)
+                    if (!isAppend)
                         feedItemList.clear();
                     List<FeedItem> result = gson.fromJson(response.body().string(),
-                            new TypeToken<FeedItem>(){}.getType());
+                            new TypeToken<FeedItem>() {
+                            }.getType());
                     feedItemList.addAll(result);
                     FeedsPresenter.notifyAdapter(channelItem);
-                    for(FeedItem feedItem: result)
-                        if(!LitePal.isExist(FeedItem.class, "link == ?", feedItem.getLink()))
-                            feedItem.save();
+                    for (FeedItem feedItem : result)
+                        try {
+                            feedItem.saveAsync();
+                        }catch (Exception ignore){}
                 }
             });
         } else {
-//            new FeedItem().save();
             getFeedsAsyncFromDB(channelItem, keyWord, number, isAppend, feedItemList);
         }
     }
@@ -127,7 +150,7 @@ public class DatabaseModel {
         Request.Builder requestBuilder = new Request.Builder()
                 .url(args[0])
                 .addHeader("xmlUrl", args[1]);
-        if(args[2] != null)
+        if (args[2] != null)
             requestBuilder.addHeader("keyWord", args[2]);
         client.newCall(
                 requestBuilder
@@ -136,6 +159,19 @@ public class DatabaseModel {
                         .addHeader("offset", args[5])
                         .build()
         ).enqueue(callback);
+    }
+
+    public static boolean getIsOnline() {
+        return isOnline;
+    }
+
+    /************* for debug **************/
+
+    public static void saveTestFeedItem(ChannelItem channelItem) {
+        FeedItem feedItem = new FeedItem();
+        feedItem.setDescription("aaa");
+//        feedItem.setChannelXmlUrl(channelItem.getXmlUrl());
+        feedItem.save();
     }
 }
 

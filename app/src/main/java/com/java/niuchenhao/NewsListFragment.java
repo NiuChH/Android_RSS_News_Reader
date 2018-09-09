@@ -85,6 +85,7 @@ public class NewsListFragment extends Fragment {
         //Call Read rss async task to fetch rss
 
 //        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
+        FeedsPresenter.setSwipeRefreshLayout(channelItem, swipeRefresh);
         FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.FALSE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

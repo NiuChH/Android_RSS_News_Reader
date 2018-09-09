@@ -34,7 +34,7 @@ public class RssReader {
                 for(Element item: items){
 //                Log.d("item", item.tagName()+" "+item.text());
                     FeedItem feeditem = new FeedItem();
-                    feeditem.setChannelItem(channelItem);
+                    feeditem.setChannelTitle(channelItem.getTitle());
                     Elements eles = item.children();
                     for(Element e : eles){
 //                    Log.d("ele", e.tagName()+" "+e.text());

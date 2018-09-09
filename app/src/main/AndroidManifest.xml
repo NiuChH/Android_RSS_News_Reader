@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.java.niuchenhao">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <permission android:name="com.java.niuchenhao.ASSET_ACCESS"
+    <permission
+        android:name="com.java.niuchenhao.ASSET_ACCESS"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -36,9 +42,14 @@
         <provider
             android:name=".utils.AssetProvider"
             android:authorities="com.java.niuchenhao.shareactionprovider"
-            android:grantUriPermissions="true"
             android:exported="true"
+            android:grantUriPermissions="true"
             android:permission="com.java.niuchenhao.ASSET_ACCESS" />
+
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

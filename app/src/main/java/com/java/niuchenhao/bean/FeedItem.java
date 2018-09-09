@@ -1,24 +1,45 @@
 package com.java.niuchenhao.bean;
 
+import android.util.Log;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class FeedItem extends LitePalSupport implements Serializable {
+
+    @Override
+    public int hashCode() {
+        return getLink().hashCode();
+    }
 
     @Column(unique = true)
     private String title;
     @Column(unique = true)
     private String link;
     private String description;
-    private Date pubDate;
+    private String pubDate;
+    private long longDate;
     private String thumbnailUrl;
     private boolean hadRead;
     private boolean hadReadDescription;
-    private ChannelItem channelItem;
+
+    public String getChannelTitle() {
+        return channelTitle;
+    }
+
+    public void setChannelTitle(String channelTitle) {
+        this.channelTitle = channelTitle;
+    }
+
+    private String channelTitle;
 
     public FeedItem(){
         hadRead = false;
@@ -65,17 +86,25 @@ public class FeedItem extends LitePalSupport implements Serializable {
         this.description = description;
     }
 
-    public Date getPubDate() {
+    public String getPubDate() {
         return pubDate;
     }
 
     public void setPubDate(String pubDate) {
-        this.pubDate = Date.valueOf(pubDate);
+        Log.d("setPubDate", pubDate);
+        try {
+            this.longDate = new SimpleDateFormat("YYYY-MM-dd", Locale.CHINA).parse(pubDate).getTime();
+
+        } catch (ParseException e) {
+            try {
+                this.longDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US).parse(pubDate).getTime();
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+                Log.d(TAG, "ERROR: "+pubDate);
+            }
+        }
     }
 
-    public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
-    }
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
@@ -83,14 +112,6 @@ public class FeedItem extends LitePalSupport implements Serializable {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public ChannelItem getChannelItem() {
-        return channelItem;
-    }
-
-    public void setChannelItem(ChannelItem channelItem) {
-        this.channelItem = channelItem;
     }
 
     public boolean hadReadDescription() {
@@ -102,4 +123,11 @@ public class FeedItem extends LitePalSupport implements Serializable {
     }
 
 
+    public long getLongDate() {
+        return longDate;
+    }
+
+    public void setLongDate(long longDate) {
+        this.longDate = longDate;
+    }
 }

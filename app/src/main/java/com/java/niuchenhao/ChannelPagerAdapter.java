@@ -60,7 +60,7 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifia
     }
 
     public void notifyDiff(){
-        slidingTabLayout.setCurrentTab(0);
         notifyDataSetChanged();
+        slidingTabLayout.setCurrentTab(0);
     }
 }

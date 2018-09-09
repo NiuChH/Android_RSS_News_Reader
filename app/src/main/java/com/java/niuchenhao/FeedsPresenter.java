@@ -1,5 +1,8 @@
 package com.java.niuchenhao;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+
 import com.java.niuchenhao.bean.ChannelItem;
 import com.java.niuchenhao.bean.FeedItem;
 
@@ -11,6 +14,11 @@ import java.util.Map;
 public class FeedsPresenter extends BasePresenter{
     private static Map<ChannelItem, List<FeedItem>> dataMap = new HashMap<>();
     private static Map<ChannelItem, Notifiable> adapterMap = new HashMap<>();
+    private static Map<ChannelItem, SwipeRefreshLayout> swipeRefreshLayoutMap = new HashMap<>();
+
+    public static void setSwipeRefreshLayout(ChannelItem channelItem, SwipeRefreshLayout swipeRefreshLayout){
+        swipeRefreshLayoutMap.put(channelItem, swipeRefreshLayout);
+    }
 
     public static void registerAdapter(ChannelItem channelItem, Notifiable adapter){
         adapterMap.put(channelItem, adapter);
@@ -42,6 +50,10 @@ public class FeedsPresenter extends BasePresenter{
     }
 
     public static void notifyAdapter(ChannelItem channelItem){
+        if(swipeRefreshLayoutMap.get(channelItem) != null) {
+            Log.d("FeedsPresenter", swipeRefreshLayoutMap.get(channelItem)+"swipeRefreshLayout.setRefreshing(false)");
+            swipeRefreshLayoutMap.get(channelItem);
+        }
         adapterMap.get(channelItem).notifyDiff();
     }
 }
