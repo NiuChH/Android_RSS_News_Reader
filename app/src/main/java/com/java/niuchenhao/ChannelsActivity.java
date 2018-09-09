@@ -42,9 +42,9 @@ public class ChannelsActivity extends AppCompatActivity {
         uncheckedRecyclerView = findViewById(R.id.rv_unchecked_list);
         initRecyclerView(checkedRecyclerView);
         initRecyclerView(uncheckedRecyclerView);
-        checkedRecyclerView.setAdapter(new ChannelAdapter(this,
+        checkedRecyclerView.setAdapter(new ChannelAdapter(getApplicationContext(),
                 ChannelsPresenter.getCheckedChannels()));
-        uncheckedRecyclerView.setAdapter(new ChannelAdapter(this,
+        uncheckedRecyclerView.setAdapter(new ChannelAdapter(getApplicationContext(),
                 ChannelsPresenter.getUncheckedChannels()));
     }
 

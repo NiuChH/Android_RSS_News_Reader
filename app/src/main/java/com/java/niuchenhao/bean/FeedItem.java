@@ -1,5 +1,6 @@
 package com.java.niuchenhao.bean;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.litepal.annotation.Column;
@@ -30,6 +31,24 @@ public class FeedItem extends LitePalSupport implements Serializable {
     private String thumbnailUrl;
     private boolean hadRead;
     private boolean hadReadDescription;
+
+    @Override
+    public String toString() {
+        return "FeedItem{" +
+                "title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                ", description='" + description + '\'' +
+                ", pubDate='" + pubDate + '\'' +
+                ", longDate=" + longDate +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                ", hadRead=" + hadRead +
+                ", hadReadDescription=" + hadReadDescription +
+                ", favourite=" + favourite +
+                ", channelTitle='" + channelTitle + '\'' +
+                '}';
+    }
+
+    private boolean favourite;
 
     public String getChannelTitle() {
         return channelTitle;
@@ -91,7 +110,7 @@ public class FeedItem extends LitePalSupport implements Serializable {
     }
 
     public void setPubDate(String pubDate) {
-        Log.d("setPubDate", pubDate);
+        this.pubDate = pubDate;
         try {
             this.longDate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(pubDate).getTime();
         } catch (ParseException e) {
@@ -129,4 +148,23 @@ public class FeedItem extends LitePalSupport implements Serializable {
     public void setLongDate(long longDate) {
         this.longDate = longDate;
     }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+
+    //    @Override
+//    public <T> boolean isSameModelAs(@NonNull T model) {
+//        return model instanceof FeedItem && ((FeedItem) model).getLink().equals(link);
+//    }
+//
+//    @Override
+//    public <T> boolean isContentTheSameAs(@NonNull T model) {
+//        return true;
+//    }
 }

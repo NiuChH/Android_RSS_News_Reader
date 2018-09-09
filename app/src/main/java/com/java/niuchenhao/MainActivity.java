@@ -44,19 +44,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = findViewById(R.id.viewpager);
 
         // Give the TabLayout the ViewPager
         SlidingTabLayout tabLayout = findViewById(R.id.sliding_tabs);
-
-//        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorAccent));
-//        tabLayout.setTabTextColors(
-//                ContextCompat.getColor(this, android.R.color.white),
-//                ContextCompat.getColor(this, android.R.color.black)
-//        );
-
 
         // Create an adapter that knows which fragment should be shown on each page
         ChannelPagerAdapter adapter = new ChannelPagerAdapter(this, getSupportFragmentManager(), tabLayout);
@@ -65,16 +57,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         tabLayout.setViewPager(viewPager);
-//        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelect(int position) {
-//            }
-//
-//            @Override
-//            public void onTabReselect(int position) {
-//
-//            }
-//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,17 +68,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case android.R.id.home:
-//                mDrawerLayout.openDrawer(GravityCompat.START);
-//                break;
-            case R.id.backup:
-                Toast.makeText(this, "You clicked Backup", Toast.LENGTH_SHORT).show();
+            case R.id.search:
+                Toast.makeText(this, "You clicked Search", Toast.LENGTH_SHORT).show();
+                SearchActivity.actionStart(this);
                 break;
-            case R.id.delete:
-                Toast.makeText(this, "You clicked Delete", Toast.LENGTH_SHORT).show();
+            case R.id.add_channel:
+                ChannelsActivity.actionStart(this);
                 break;
             case R.id.settings:
-                ChannelsActivity.actionStart(this);
+                Toast.makeText(this, "You clicked settings", Toast.LENGTH_SHORT).show();
                 break;
             default:
         }

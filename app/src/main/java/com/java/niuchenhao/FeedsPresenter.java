@@ -43,8 +43,8 @@ public class FeedsPresenter extends BasePresenter{
 
     }
 
-    public static void addClick(ChannelItem channelItem){
-        channelItem.addClickCount();
+    public static void addClick(FeedItem feedItem){
+
         //...
 
     }

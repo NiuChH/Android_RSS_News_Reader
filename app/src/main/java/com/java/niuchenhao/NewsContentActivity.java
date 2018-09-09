@@ -52,6 +52,9 @@ public class NewsContentActivity extends AppCompatActivity {
         feedItem = (FeedItem) getIntent().getSerializableExtra("news_item");
         WebView webView = findViewById(R.id.web_view);
         WebSettings settings = webView.getSettings();
+        //TODO do this if you what to save web page
+//        webView.saveWebArchive("hhh.mht", getExternalCacheDir(), );
+
         String ua = settings.getUserAgentString();
         settings.setUserAgentString(ua + " APP_TAG/5.0.1");
         settings.setBuiltInZoomControls(true);

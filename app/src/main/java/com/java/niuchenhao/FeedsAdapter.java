@@ -34,8 +34,8 @@ import java.util.List;
 import static android.support.constraint.Constraints.TAG;
 
 public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHolder> {
-    private Context context;
-    private ChannelItem channelItem;
+    final private Context context;
+    final private ChannelItem channelItem;
     public FeedsAdapter(Context context, List<FeedItem> feedItems, ChannelItem channelItem){
         super(feedItems);
         this.context=context;
@@ -67,7 +67,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
             public void onClick(View v) {
                 holder.current.setHadRead(true);
                 refreshHadRead(holder);
-                FeedsPresenter.addClick(channelItem);
+                FeedsPresenter.addClick(holder.current);
                 NewsContentActivity.actionStart(context, holder.current);
             }
         };
@@ -89,6 +89,8 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         final ImageView thumbnails = holder.Thumbnail;
         final String currentId = holder.getId();
 
+
+        // ref: https://stackoverflow.com/questions/23391523/load-images-from-disk-cache-with-picasso-if-offline
         Picasso.with(context)
                 .load(Uri.parse(holder.current.getThumbnailUrl()))
                 .networkPolicy(NetworkPolicy.OFFLINE)

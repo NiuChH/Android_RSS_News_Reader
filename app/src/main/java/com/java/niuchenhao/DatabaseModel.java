@@ -84,7 +84,7 @@ public class DatabaseModel {
                     .findAsync(FeedItem.class)
                     .listen(getNotifyCallBack(channelItem, isAppend, feedItemList));
         } else
-            LitePal.where("title contains ?", keyWord)
+            LitePal.where("title like ?", keyWord)
                     .limit(number)
                     .offset(offset)
                     .findAsync(FeedItem.class)
@@ -104,11 +104,11 @@ public class DatabaseModel {
     }
 
     public static void getFeedsAsync(final ChannelItem channelItem, final String keyWord, final Integer number, final Boolean isAppend, final List<FeedItem> feedItemList) {
-        if ((!useServer) && isOnline) {
+        if ((!useServer) && isOnline && keyWord == null) {
             new ReadRss(channelItem, feedItemList).execute(number, isAppend ? 1 : 0);
             Log.d(TAG, "using ReadRss");
             Log.d(TAG, useServer+ " " + isOnline);
-        } else if (isOnline) {
+        } else if (useServer && isOnline) {
             final String[] headers = {
                     URL_STRING,
                     channelItem.getXmlUrl(),

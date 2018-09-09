@@ -131,13 +131,11 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
             Log.e("ReadRss", "get empty data");
             return Boolean.FALSE;
         }
-//        for (FeedItem feedItem : temp_feedItems)
+        for (FeedItem feedItem : temp_feedItems)
             try {
             //TODO optimize this!
-                LitePal.saveAll(temp_feedItems);
-            }catch (Exception ignore){
-                ignore.printStackTrace();
-            }
+                feedItem.save();
+            } catch (Exception ignored){}
         return Boolean.TRUE;
     }
 
