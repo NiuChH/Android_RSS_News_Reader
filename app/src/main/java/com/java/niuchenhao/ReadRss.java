@@ -75,7 +75,7 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
 //            progressDialog.dismiss();
 //            firstTime = false;
 //        }
-        if(!success)
+        if (!success)
             DatabaseModel.setIsOnline(false);
         FeedsPresenter.notifyAdapter(channelItem);
     }
@@ -87,15 +87,15 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
         if (data != null) {
             temp_feedItems = new ArrayList<>();
             Elements items = data.getElementsByTag("item");
-            for(int i = (mode.equals(APPEND) ? feedItems.size() : 0); i < items.size(); ++i){
+            for (int i = (mode.equals(APPEND) ? feedItems.size() : 0); i < items.size(); ++i) {
 //                Log.d("item", item.tagName()+" "+item.text());
                 Element item = items.get(i);
                 FeedItem feeditem = new FeedItem();
                 feeditem.setChannelTitle(channelItem.getTitle());
                 Elements eles = item.children();
-                for(Element e : eles){
-//                    Log.d("ele", e.tagName()+" "+e.text());
-                    switch (e.tagName()){
+                //                    Log.d("ele", e.tagName()+" "+e.text());
+                for (Element e : eles)
+                    switch (e.tagName()) {
                         case "title":
                             feeditem.setTitle(e.text());
                             break;
@@ -104,31 +104,41 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
                             feeditem.setDescription(e.text().replaceAll("(<img.*?/>)|(<IMG.*?/>)", ""));
                             Elements maybeImg = Jsoup.parse(e.text()).getElementsByTag("img");
                             maybeImg.addAll(Jsoup.parse(e.text()).getElementsByTag("IMG"));
-                            if(!maybeImg.isEmpty())
-                                feeditem.setThumbnailUrl(maybeImg.first().attr("src"));
-                            else
-                                // TODO edit default ThumbnailUrl
+                            if (!maybeImg.isEmpty()) {
+                                for (Element img : maybeImg) {
+                                    if (true) {
+                                        if (img.attr("src").startsWith("http://")) {
+                                            feeditem.setThumbnailUrl(img.attr("src"));
+                                            break;
+                                        }else if (img.attr("src").startsWith("/")) {
+                                            feeditem.setThumbnailUrl("http://www.people.com.cn"+img.attr("src"));
+                                            break;
+                                        } else {
+                                            Log.d("ReadRss error image", img.attr("src"));
+                                        }
+                                    }
+                                }
+                            } else
                                 feeditem.setThumbnailUrl(null);
                             break;
                         case "pubDate":
-                                feeditem.setPubDate(e.text());
+                            feeditem.setPubDate(e.text());
                             break;
                         case "link":
                             feeditem.setLink(e.text());
                             break;
                     }
-                }
                 feedItemFromDB = LitePal.where("link = ?", feeditem.getLink()).findFirst(FeedItem.class);
-                if(feedItemFromDB!=null)
+                if (feedItemFromDB != null)
                     temp_feedItems.add(feedItemFromDB);
-                else if(feeditem.getDescription().length() >= 20) {
+                else if (feeditem.getDescription().length() >= 100) {
                     temp_feedItems.add(feeditem);
                     feeditem.saveAsync();
                 }
-                if(temp_feedItems.size() > numbers)
+                if (temp_feedItems.size() > numbers)
                     break;
             }
-            if(mode.equals(REFRESH)) {
+            if (mode.equals(REFRESH)) {
                 feedItems.clear();
                 feedItems.addAll(temp_feedItems);
             } else {

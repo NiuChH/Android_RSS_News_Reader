@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ChannelsActivity"
+    android:layout_height="wrap_content"
+    tools:context=".ChannelsActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/manage_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/my_channels"/>
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <TextView
+                style="@style/manage_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_channels"/>
 
-    <!-- android:overScrollMode="never"就是不显示边界阴影效果 -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_checked_list"
-        android:overScrollMode="never"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        <!-- android:overScrollMode="never"就是不显示边界阴影效果 -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_checked_list"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <TextView
-            style="@style/manage_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/more_channels"/>
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <TextView
+                style="@style/manage_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more_channels"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_unchecked_list"
-        android:overScrollMode="never"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_unchecked_list"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

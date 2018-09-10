@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 
 import com.java.niuchenhao.R;
@@ -17,6 +18,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+
+//ref:
+
 
 public class ShareUitls {
 
@@ -30,7 +35,7 @@ public class ShareUitls {
 
     private static Bitmap compressImage(Bitmap image) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 10, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        image.compress(Bitmap.CompressFormat.JPEG, 30, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;
         while (baos.toByteArray().length / 1024 > 400) {  //循环判断如果压缩后图片是否大于400kb,大于继续压缩（这里可以设置大些）
             baos.reset();//重置baos即清空baos
@@ -51,16 +56,15 @@ public class ShareUitls {
 
         String path = "";
 
-        path = context.getExternalCacheDir() + File.separator;//保存到sd根目录下
+        path += context.getExternalCacheDir() + File.separator;//保存到sd根目录下
 
-        //        File f = new File(path, System.currentTimeMillis() + ".jpg");
         File f = new File(path, "share" + ".jpg");
         if (f.exists()) {
             f.delete();
         }
         try {
             FileOutputStream out = new FileOutputStream(f);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, out);
             out.flush();
             out.close();
             bitmap.recycle();
@@ -80,6 +84,7 @@ public class ShareUitls {
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
             shareIntent.setType("image/*");
+            Log.d("share utils:", "share image ready!");
             return  Intent.createChooser(shareIntent, "share it!");
         }
         return null;

@@ -2,6 +2,7 @@ package com.java.niuchenhao;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -116,9 +117,12 @@ public class DatabaseModel {
         ChannelItem ciDB;
         for(ChannelItem channelItem: result){
             ciDB = LitePal.where("xmlurl = ?", channelItem.getXmlUrl()).findFirst(ChannelItem.class);
-            if(ciDB == null)
-                channelItem.save();
-            else {
+            if(ciDB == null){
+                // 出现这种情况是改变了语言设置
+                LitePal.deleteAll(ChannelItem.class);
+                LitePal.saveAll(result);
+                break;
+            } else {
                 channelItem.setClickCount(ciDB.getClickCount());
                 channelItem.setChecked(ciDB.isChecked());
             }
@@ -180,8 +184,14 @@ public class DatabaseModel {
         LitePal.order("clickcount desc").limit(3).findAsync(ChannelItem.class).listen(new FindMultiCallback() {
             @Override
             public <T> void onFinish(List<T> t) {
-                Log.d("Recommend", ((ChannelItem)t.get(0)).getXmlUrl());
-                Log.d("Recommend", ((ChannelItem)t.get(1)).getXmlUrl());
+                Log.d("Recommend", ((ChannelItem)t.get(0)).getTitle());
+                Log.d("Recommend", ((ChannelItem)t.get(1)).getTitle());
+                Log.d("Recommend", ((ChannelItem)t.get(2)).getTitle());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    LitePal.select("channeltitle").find(FeedItem.class).forEach( v->
+                            Log.d("Recommend", v.toString()));
+                }
+
                 feedItemList.addAll(
                         LitePal.order("longdate desc")
                                 .where("channeltitle in (?,?,?)",

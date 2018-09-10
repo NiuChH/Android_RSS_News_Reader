@@ -81,20 +81,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add_channel:
                 ChannelsActivity.actionStart(this);
                 break;
-            case R.id.settings:
+            case R.id.clear_data:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.dialog_deleteAll)
-                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                LitePal.deleteDatabase("database");
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        });
-                // Create the AlertDialog object and return it
+                        .setPositiveButton(R.string.confirm, (dialog, id) -> LitePal.deleteDatabase("database"))
+                        .setNegativeButton(R.string.cancel, (dialog, id) -> {});
                 builder.create().show();
                 break;
             default:

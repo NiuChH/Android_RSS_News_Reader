@@ -48,7 +48,6 @@ public class RssReader {
                                 if(!maybeImg.isEmpty())
                                     feeditem.setThumbnailUrl(maybeImg.first().attr("src"));
                                 else
-                                    // TODO edit default ThumbnailUrl
                                     feeditem.setThumbnailUrl(null);
                                 break;
                             case "pubDate":

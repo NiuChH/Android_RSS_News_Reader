@@ -4,13 +4,35 @@
         <title>People's Daily Online -- http://www.people.cn</title>
     </head>
     <body>
+
+        <outline htmlUrl="http://finance.people.cn" text="财经频道" title="财经频道" type="rss"
+            version="RSS" xmlUrl="http://www.people.com.cn/rss/finance.xml" />
+
+        <outline htmlUrl="http://ent.people.cn" text="娱乐频道" title="娱乐频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/ent.xml" />
+
+
+        <outline htmlUrl="http://auto.people.cn" text="汽车频道" title="汽车频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/auto.xml" />
+
         <outline htmlUrl="http://politics.people.cn" text="时政频道" title="时政频道" type="rss"
             version="RSS"
             xmlUrl="http://www.people.com.cn/rss/politics.xml" />
+        <outline htmlUrl="http://it.people.cn" text="IT频道" title="IT频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/it.xml" />
+
+        <outline htmlUrl="http://media.people.cn" text="传媒频道" title="传媒频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/media.xml" />
+        <outline htmlUrl="http://theory.people.cn" text="理论频道" title="理论频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/theory.xml" />
+
+
+        <outline htmlUrl="http://game.people.cn" text="游戏频道" title="游戏频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/game.xml" />
+
         <outline htmlUrl="http://world.people.cn" text="国际频道" title="国际频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/world.xml" />
-        <outline htmlUrl="http://finance.people.cn" text="财经频道" title="财经频道" type="rss"
-            version="RSS" xmlUrl="http://www.people.com.cn/rss/finance.xml" />
+
         <outline htmlUrl="http://money.people.cn" text="金融频道" title="金融频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/money.xml" />
         <outline htmlUrl="http://energy.people.cn" text="能源频道" title="能源频道" type="rss" version="RSS"
@@ -19,28 +41,14 @@
             xmlUrl="http://www.people.com.cn/rss/ccnews.xml" />
         <outline htmlUrl="http://sports.people.cn" text="体育频道" title="体育频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/sports.xml" />
-        <outline htmlUrl="http://legal.people.cn" text="法制频道" title="法制频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/legal.xml" />
         <outline htmlUrl="http://edu.people.cn" text="教育频道" title="教育频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/legal.xml" />
         <outline htmlUrl="http://culture.people.cn" text="文化频道" title="文化频道" type="rss"
             version="RSS" xmlUrl="http://www.people.com.cn/rss/culture.xml" />
         <outline htmlUrl="http://society.people.cn" text="社会频道" title="社会频道" type="rss"
             version="RSS" xmlUrl="http://www.people.com.cn/rss/society.xml" />
-        <outline htmlUrl="http://media.people.cn" text="传媒频道" title="传媒频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/media.xml" />
-        <outline htmlUrl="http://theory.people.cn" text="理论频道" title="理论频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/theory.xml" />
-        <outline htmlUrl="http://ent.people.cn" text="娱乐频道" title="娱乐频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/ent.xml" />
-        <outline htmlUrl="http://opinion.people.cn" text="观点频道" title="观点频道" type="rss"
-            version="RSS" xmlUrl="http://www.people.com.cn/rss/opinion.xml" />
-        <outline htmlUrl="http://auto.people.cn" text="汽车频道" title="汽车频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/auto.xml" />
-        <outline htmlUrl="http://tw.people.cn" text="海峡两岸" title="海峡两岸" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/haixia.xml" />
-        <outline htmlUrl="http://it.people.cn" text="IT频道" title="IT频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/it.xml" />
+
+
         <outline htmlUrl="http://env.people.cn" text="环保频道" title="环保频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/env.xml" />
         <outline htmlUrl="http://gongyi.people.cn" text="公益频道" title="公益频道" type="rss" version="RSS"
@@ -49,45 +57,17 @@
             version="RSS" xmlUrl="http://www.people.com.cn/rss/scitech.xml" />
         <outline htmlUrl="http://history.people.cn" text="文史频道" title="文史频道" type="rss"
             version="RSS" xmlUrl="http://www.people.com.cn/rss/history.xml" />
-        <outline htmlUrl="http://art.people.cn" text="收藏频道" title="收藏频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/art.xml" />
-        <outline htmlUrl="http://book.people.cn" text="读书频道" title="读书频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/book.xml" />
-        <outline htmlUrl="http://shipin.people.cn" text="食品频道" title="食品频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/shipin.xml" />
-        <outline htmlUrl="http://game.people.cn" text="游戏频道" title="游戏频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/game.xml" />
-        <outline htmlUrl="http://homea.people.cn" text="家电频道" title="家电频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/homea.xml" />
-        <outline htmlUrl="http://house.people.cn" text="房产频道" title="房产频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/house.xml" />
-        <outline htmlUrl="http://health.people.cn" text="健康频道" title="健康频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/health.xml" />
-        <outline htmlUrl="http://ip.people.cn" text="知识产权" title="知识产权" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/ip.xml" />
         <outline htmlUrl="http://cpc.people.cn" text="共产党新闻网" title="共产党新闻网" type="rss"
             version="RSS" xmlUrl="http://www.people.com.cn/rss/cpc.xml" />
         <outline htmlUrl="http://dangjian.people.cn" text="党建" title="党建" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/dangjian.xml" />
-        <outline htmlUrl="http://npc.people.cn" text="中国人大新闻" title="中国人大新闻" type="rss"
-            version="RSS" xmlUrl="http://www.people.com.cn/rss/npc.xml" />
         <outline htmlUrl="http://cppcc.people.cn" text="中国政协新闻" title="中国政协新闻" type="rss"
             version="RSS" xmlUrl="http://www.people.com.cn/rss/cppcc.xml" />
         <outline htmlUrl="http://military.people.cn" text="人民网-军事频道" title="人民网-军事频道" type="rss"
             version="RSS"
             xmlUrl="http://www.people.com.cn/rss/military.xml" />
-        <outline htmlUrl="http://tv.people.cn" text="人民电视" title="人民电视" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/tv.xml" />
-        <outline htmlUrl="http://unn.people.cn" text="地方频道" title="地方频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/unn.xml" />
-        <outline htmlUrl="http://travel.people.cn" text="人民网-旅游频道" title="人民网-旅游频道" type="rss"
-            version="RSS" xmlUrl="http://www.people.com.cn/rss/travel.xml" />
-        <outline htmlUrl="http://renshi.people.cn" text="人事频道" title="人事频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/renshi.xml" />
         <outline htmlUrl="http://leaders.people.cn" text="领导频道" title="领导频道" type="rss"
             version="RSS" xmlUrl="http://www.people.com.cn/rss/leaders.xml" />
-        <outline htmlUrl="http://pic.people.cn" text="图片频道" title="图片频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/pic.xml" />
         <outline htmlUrl="http://yuqing.people.cn" text="舆情频道" title="舆情频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/yuqing.xml" />
         <outline htmlUrl="http://hm.people.cn" text="港澳频道" title="港澳频道" type="rss" version="RSS"
@@ -96,8 +76,6 @@
             xmlUrl="http://www.people.com.cn/rss/tc.xml" />
         <outline htmlUrl="http://lady.people.cn" text="时尚频道" title="时尚频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/lady.xml" />
-        <outline htmlUrl="http://hongmu.people.cn" text="红木频道" title="红木频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/hongmu.xml" />
         <outline htmlUrl="http://ru.people.cn" text="俄罗斯频道" title="俄罗斯频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/ru.xml" />
         <outline htmlUrl="http://japan.people.cn" text="日本频道" title="日本频道" type="rss" version="RSS"
@@ -106,20 +84,7 @@
             xmlUrl="http://www.people.com.cn/rss/uk.xml" />
         <outline htmlUrl="http://usa.people.cn" text="美国频道" title="美国频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/usa.xml" />
-        <outline htmlUrl="http://korea.people.cn" text="韩国频道" title="韩国频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/korea.xml" />
         <outline htmlUrl="http://sh.people.com.cn" text="上海频道" title="上海频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/sh.xml" />
-        <outline htmlUrl="http://www.people.com.cn" text="热点新闻" title="热点新闻" type="rss"
-            version="RSS" xmlUrl="http://www.people.com.cn/rss/phb.xml" />
-        <outline htmlUrl="http://liuyan.people.com.cn/" text="地方领导留言板" title="地方领导留言板" type="rss"
-            version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/liuyan.xml" />
-        <outline htmlUrl="http://chinapic.people.com.cn/" text="图说中国" title="图说中国" type="rss"
-            version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/chinapic.xml" />
-        <outline htmlUrl="http://chinapic.people.com.cn/" text="图说中国" title="图说中国" type="rss"
-            version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/chinapic.xml" />
     </body>
 </opml>

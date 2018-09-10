@@ -29,6 +29,8 @@ import com.google.zxing.WriterException;
 import com.java.niuchenhao.bean.FeedItem;
 import com.java.niuchenhao.utils.ShareUitls;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -218,6 +220,7 @@ public class NewsContentActivity extends AppCompatActivity {
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
 
         setShareIntent();
+//        invalidateOptionsMenu();
 
         refreshFavourite(menu.findItem(R.id.menu_favourite));
 
@@ -242,19 +245,13 @@ public class NewsContentActivity extends AppCompatActivity {
 
             View mView = LayoutInflater.from(this).inflate(R.layout.custum_row_news_item, null);
 
+
+            ((TextView) mView.findViewById(R.id.title_text)).setText(feedItem.getTitle());
+            ((TextView) mView.findViewById(R.id.description_text)).setText(feedItem.getDescription().replaceAll("<.*?>", ""));
             final ImageView thumbnails = (ImageView) mView.findViewById(R.id.thumb_img);
             final String thumbnailUrl = feedItem.getThumbnailUrl();
 
-            if (thumbnailUrl == null) {
-                Picasso.with(this).load(R.drawable.rss_logo).into(thumbnails);
-//                thumbnails.setImageDrawable(getResources().getDrawable(R.drawable.rss_logo));
-            } else {
-                Picasso.with(this).load(feedItem.getThumbnailUrl()).into(thumbnails);
-            }
-            ((TextView) mView.findViewById(R.id.title_text)).setText(feedItem.getTitle());
-            ((TextView) mView.findViewById(R.id.description_text)).setText(feedItem.getDescription().replaceAll("<.*?>", ""));
-            ((TextView) mView.findViewById(R.id.description_text)).setMaxLines(10);
-
+            final Context context = getApplicationContext();
             try {
                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                 Bitmap qr_bitmap;
@@ -265,13 +262,26 @@ public class NewsContentActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            mView.setDrawingCacheEnabled(true);
+
             //图片的宽度为屏幕宽度，高度为wrap_content
+
+
+            if (thumbnailUrl == null) {
+                Picasso.with(context).load(R.drawable.rss_logo).into(thumbnails);
+//                thumbnails.setImageDrawable(getResources().getDrawable(R.drawable.rss_logo));
+            } else {
+                Picasso.with(context)
+                        .load(feedItem.getThumbnailUrl())
+                        .placeholder(R.drawable.rss_logo)
+                        .error(R.drawable.rss_logo)
+                        .into(thumbnails);
+            }
+
+            mView.setDrawingCacheEnabled(true);
+            mView.buildDrawingCache();
             mView.measure(View.MeasureSpec.makeMeasureSpec(getResources().getDisplayMetrics().widthPixels, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             //放置mView
             mView.layout(0, 0, mView.getMeasuredWidth(), mView.getMeasuredHeight());
-
-            mView.buildDrawingCache();
             Bitmap bitmap = mView.getDrawingCache();
             Intent shareIntent = ShareUitls.file2ShareIntent(ShareUitls.bitMap2File(bitmap, getApplicationContext()));
             if (shareIntent != null)

@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Nch News</string>
     <string name="opml_filename">opml_ru.xml</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_news_content">News Content</string>
 </resources>
