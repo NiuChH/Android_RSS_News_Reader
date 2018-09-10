@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -33,8 +34,17 @@ public class FeedItem extends LitePalSupport implements Serializable {
     private boolean hadReadDescription;
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FeedItem)) return false;
+        FeedItem feedItem = (FeedItem) o;
+        return getLink().equals(feedItem.getLink());
+    }
+
+    @Override
     public String toString() {
         return "FeedItem{" +
+
                 "title='" + title + '\'' +
                 ", link='" + link + '\'' +
                 ", description='" + description + '\'' +

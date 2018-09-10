@@ -22,16 +22,19 @@ import android.webkit.WebViewClient;
 
 import com.java.niuchenhao.bean.FeedItem;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
 
 public class NewsContentActivity extends AppCompatActivity {
 
@@ -66,24 +69,43 @@ public class NewsContentActivity extends AppCompatActivity {
 
         feedItem = (FeedItem) getIntent().getSerializableExtra("news_item");
         webView = findViewById(R.id.web_view);
-        WebSettings settings = webView.getSettings();
+//        WebSettings settings = webView.getSettings();
+//
+//        String ua = settings.getUserAgentString();
+//        settings.setUserAgentString(ua + " APP_TAG/5.0.1");
+//        settings.setBuiltInZoomControls(true);
+//        settings.setLoadWithOverviewMode(true);
+//        settings.setUseWideViewPort(true);
+//        settings.setJavaScriptEnabled(true);
+//        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+//        settings.setSupportMultipleWindows(true);
+//        settings.setAppCacheEnabled(true);
+//        settings.setAppCacheMaxSize(10 * 1024 * 1024);
+//        settings.setAppCachePath("");
+//        settings.setDatabaseEnabled(true);
+//        settings.setDomStorageEnabled(true);
+//        settings.setGeolocationEnabled(true);
+//        settings.setSaveFormData(false);
+//        settings.setSavePassword(false);
 
-        String ua = settings.getUserAgentString();
-        settings.setUserAgentString(ua + " APP_TAG/5.0.1");
-        settings.setBuiltInZoomControls(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
+        WebSettings settings = webView.getSettings();
+        String ua = webView.getSettings().getUserAgentString();
+        webView.getSettings().setUserAgentString(ua + " APP_TAG/5.0.1");
         settings.setJavaScriptEnabled(true);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        settings.setSupportMultipleWindows(true);
+        settings.setBuiltInZoomControls(true);
         settings.setAppCacheEnabled(true);
-        settings.setAppCacheMaxSize(10 * 1024 * 1024);
-        settings.setAppCachePath("");
-        settings.setDatabaseEnabled(true);
+        String appCachDir =this.getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
+        settings.setAppCachePath(appCachDir);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+
         settings.setDomStorageEnabled(true);
-        settings.setGeolocationEnabled(true);
-        settings.setSaveFormData(false);
-        settings.setSavePassword(false);
+        webView.setWebViewClient(new WebViewClient());
+
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
 
@@ -91,15 +113,78 @@ public class NewsContentActivity extends AppCompatActivity {
 
         if(feedItem.isFavourite()) {
             // TODO check this
-            File file = new File(Environment.getExternalStorageDirectory(),feedItem.getFilename()+".mht");
-            Log.d("1path: ", "file://"+getExternalFilesDir(null) + "/" + feedItem.getFilename() + ".mht");
+            String path = getExternalFilesDir(null)+File.separator+feedItem.getFilename()+".mht";
+            File file = new File(getExternalFilesDir(null),feedItem.getFilename()+".mht");
+            settings.setDefaultTextEncodingName(codeString(path));
+            Log.d("1path: ", codeString(path)+" "+ file.exists() + "file:///"+getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
             if(file.exists())
-                webView.loadUrl("file://"+getExternalFilesDir(null) + "/" + feedItem.getFilename() + ".mht");
+                webView.loadUrl("file:///"+getExternalFilesDir(null)+ File.separator + feedItem.getFilename() + ".mht");
 //            else
 //                webView.loadUrl(feedItem.getLink());
         } else
             webView.loadUrl(feedItem.getLink());
     }
+
+
+
+
+    public static String codeString(String fileName) {
+        BufferedInputStream bin = null;
+        String code = null;
+        try {
+            bin = new BufferedInputStream(new FileInputStream(fileName));
+            int p = (bin.read() << 8) + bin.read();
+            bin.close();
+            switch (p) {
+                case 0xefbb:
+                    code = "UTF-8";
+                    break;
+                case 0xfffe:
+                    code = "Unicode";
+                    break;
+                case 0xfeff:
+                    code = "UTF-16BE";
+                    break;
+                default:
+                    code = "GBK";
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return code;
+    }
+
+
+//    public String getFileEncoding(String filePath){
+//
+//        CodepageDetectorProxy detector = CodepageDetectorProxy.getInstance();
+//        detector.add(new ParsingDetector(false));
+//        detector.add(JChardetFacade.getInstance());
+//        detector.add(UnicodeDetector.getInstance());
+//
+//        Charset charset = null;
+//        File file = new File(filePath);
+//        try {
+//            charset = detector.detectCodepage(file.toURI().toURL());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        String charsetName = "GBK";
+//        if(charset != null){
+//            if(charset.name().equals("US-ASCII")){
+//                charsetName = "ISO-8859-1";
+//            }else if(charset.name().startsWith("UTF")){
+//                charsetName = charset.name();
+//            }
+//        }
+//        return charsetName;
+//    }
+
 
     // BEGIN_INCLUDE(get_sap)
     @Override
@@ -158,7 +243,7 @@ public class NewsContentActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TEXT,
                 feedItem.getDescription()
                         .replaceAll("<.*?>", "")
-                        .substring(0, 100) + " " + feedItem.getLink());
+                        + " " + feedItem.getLink());
         boolean hasImage = (feedItem.getThumbnailUrl() != null);
         if(!hasImage){//如果没有图片则设置类型为text/plain
             intent.setAction(Intent.ACTION_SEND);
@@ -200,12 +285,18 @@ public class NewsContentActivity extends AppCompatActivity {
             case R.id.menu_favourite:
                 if(!feedItem.isFavourite()){
                     feedItem.setFavourite(true);
+                    Log.d("toggle00", feedItem.getTitle() + " " + feedItem.isFavourite());
+                    refreshFavourite(item);
+                    FeedsPresenter.toggleFavourite(feedItem);
 //                    File file = new File(Environment.getExternalStorageDirectory(),feedItem.getFilename()+".mht");
 //                    webView.saveWebArchive(file.getAbsolutePath());
-                    webView.saveWebArchive( getExternalFilesDir(null)+ "/"+ feedItem.getFilename() + ".mht");
-                    Log.d("path: ", getExternalFilesDir(null)+ "/"+ feedItem.getFilename() + ".mht");
+                    webView.saveWebArchive( getExternalFilesDir(null)+ File.separator+ feedItem.getFilename() + ".mht");
+                    Log.d("path: ", getExternalFilesDir(null)+ File.separator+ feedItem.getFilename() + ".mht");
                 } else {
                     feedItem.setFavourite(false);
+                    Log.d("toggle0", feedItem.getTitle() + " " + feedItem.isFavourite());
+                    refreshFavourite(item);
+                    FeedsPresenter.toggleFavourite(feedItem);
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             Files.deleteIfExists(Paths.get(getExternalFilesDir(null) + "/" + feedItem.getFilename() + ".mht"));
@@ -214,8 +305,8 @@ public class NewsContentActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                FeedsPresenter.toggleFavourite(feedItem);
-                refreshFavourite(item);
+//                FeedsPresenter.toggleFavourite(feedItem);
+//                refreshFavourite(item);
                 break;
            default:
                return super.onOptionsItemSelected(item);

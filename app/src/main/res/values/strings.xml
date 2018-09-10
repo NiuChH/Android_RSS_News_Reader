@@ -17,4 +17,5 @@
     <string name="dialog_deleteAll">clear database?</string>
     <string name="confirm">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="clear_data">Clear All Cache</string>
 </resources>

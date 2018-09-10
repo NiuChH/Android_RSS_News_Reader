@@ -15,6 +15,15 @@ public class ChannelItem extends LitePalSupport implements Serializable {
     private int clickCount;
     private boolean checked;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChannelItem)) return false;
+        ChannelItem channelItem = (ChannelItem) o;
+        return getXmlUrl().equals(channelItem.getXmlUrl());
+    }
+
     public ChannelItem(String title, String xmlUrl){
         clickCount = 0;
         this.title = title;

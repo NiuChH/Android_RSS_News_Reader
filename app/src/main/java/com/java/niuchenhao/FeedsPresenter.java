@@ -60,10 +60,15 @@ public class FeedsPresenter extends BasePresenter{
     }
 
     public static void toggleFavourite(FeedItem feedItem){
+//        Log.d("toggleFavourite", feedItem.toString());
         if(feedItem.isFavourite()){
             dataMap.get(FavouriteActivity.channelItem).add(feedItem);
         } else
             dataMap.get(FavouriteActivity.channelItem).remove(feedItem);
+        for(FeedItem f: dataMap.get(FavouriteActivity.channelItem)){
+            Log.d("toggle", f.getTitle() + " " + f.isFavourite());
+        }
+
         DatabaseModel.updateFeedItem(feedItem);
         notifyAdapter(FavouriteActivity.channelItem);
     }
@@ -72,14 +77,15 @@ public class FeedsPresenter extends BasePresenter{
         if(channelItem == null)
             return;
         if(swipeRefreshLayoutMap.get(channelItem) != null) {
-            Log.d("FeedsPresenter", swipeRefreshLayoutMap.get(channelItem)+"swipeRefreshLayout.setRefreshing(false)");
             swipeRefreshLayoutMap.get(channelItem).setRefreshing(false);
         }
-        if(adapterMap.get(channelItem) != null)
+        if(adapterMap.get(channelItem) != null) {
+            Log.d("notifyAdapter", adapterMap.get(channelItem).toString());
             adapterMap.get(channelItem).notifyDiff();
+        }
     }
 
     public static List<FeedItem> getFavourites() {
-        return favourites;
+        return dataMap.get(FavouriteActivity.channelItem);
     }
 }
