@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.flyco.tablayout.SlidingTabLayout;
-import com.java.niuchenhao.view.activity.NewsListFragment;
 import com.java.niuchenhao.R;
 import com.java.niuchenhao.model.bean.ChannelItem;
 import com.java.niuchenhao.presenter.ChannelsPresenter;
+import com.java.niuchenhao.view.activity.NewsListFragment;
 
 public class ChannelPagerAdapter extends FragmentPagerAdapter implements NotifiableAdapter {
 
@@ -30,30 +30,36 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifia
         super.finalize();
     }
 
-    private ChannelItem getChannelItem(int position){
-        if(position == 0)
+    private ChannelItem getChannelItem(int position) {
+        if (position == 0)
             return ChannelsPresenter.getRecommendChannelItem();
-        return ChannelsPresenter.getCheckedChannels().get(position-1);
+        return ChannelsPresenter.getCheckedChannels().get(position - 1);
     }
 
-    /** Instantiate fragment based on user horizontal scroll position */
+    /**
+     * Instantiate fragment based on user horizontal scroll position
+     */
     @Override
     public Fragment getItem(int position) {
         return NewsListFragment.newInstance(getChannelItem(position));
     }
 
-    /** Informs the adapter of the total number of available fragments views */
+    /**
+     * Informs the adapter of the total number of available fragments views
+     */
     @Override
     public int getCount() {
-        return ChannelsPresenter.getCheckedChannels().size()+1;
+        return ChannelsPresenter.getCheckedChannels().size() + 1;
     }
 
-    /** Set tab title */
+    /**
+     * Set tab title
+     */
     @Override
     public CharSequence getPageTitle(int position) {
-        if(position == 0)
-            return " "+resources.getString(R.string.recommend)+" ";
-        return " "+getChannelItem(position).getTitle()+" ";
+        if (position == 0)
+            return " " + resources.getString(R.string.recommend) + " ";
+        return " " + getChannelItem(position).getTitle() + " ";
     }
 
     @Override
@@ -62,7 +68,7 @@ public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifia
         slidingTabLayout.notifyDataSetChanged();
     }
 
-    public void notifyDiff(){
+    public void notifyDiff() {
         notifyDataSetChanged();
         slidingTabLayout.setCurrentTab(0);
     }

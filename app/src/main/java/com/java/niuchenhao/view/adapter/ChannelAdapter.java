@@ -20,9 +20,10 @@ import java.util.List;
 
 public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.ChannelViewHolder> {
     private Context context;
-    public ChannelAdapter(Context context, List<ChannelItem> channelItems){
+
+    public ChannelAdapter(Context context, List<ChannelItem> channelItems) {
         super(channelItems);
-        this.context=context;
+        this.context = context;
         Log.d("channel adapter", channelItems.toString());
         ChannelsPresenter.registerAdapter(this);
     }
@@ -36,7 +37,7 @@ public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.Chan
     @NonNull
     @Override
     public ChannelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.channel_label, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.channel_label, parent, false);
         return new ChannelViewHolder(view);
     }
 
@@ -68,6 +69,7 @@ public class ChannelAdapter extends BaseAdapter<ChannelItem, ChannelAdapter.Chan
         TextView labelText;
         CardView cardView;
         ChannelItem current;
+
         public ChannelViewHolder(View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.channel_label_card);

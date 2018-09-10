@@ -6,11 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-
-import com.java.niuchenhao.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -77,7 +74,7 @@ public class ShareUitls {
         }
     }
 
-    public static Intent file2ShareIntent(File file){
+    public static Intent file2ShareIntent(File file) {
         if (file != null && file.exists() && file.isFile()) {
             Uri imageUri = Uri.fromFile(file);
             Intent shareIntent = new Intent();
@@ -85,15 +82,14 @@ public class ShareUitls {
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
             shareIntent.setType("image/*");
             Log.d("share utils:", "share image ready!");
-            return  Intent.createChooser(shareIntent, "share it!");
+            return Intent.createChooser(shareIntent, "share it!");
         }
         return null;
     }
 
-    public static Intent view2ShareIntent(View headerView){
+    public static Intent view2ShareIntent(View headerView) {
         return file2ShareIntent(bitMap2File(compressImage(getBitmapByView(headerView)), headerView.getContext()));
     }
-
 
 
 }

@@ -57,23 +57,42 @@ public class NewsContentActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static String codeString(String fileName) {
+        BufferedInputStream bin = null;
+        String code = null;
+        try {
+            bin = new BufferedInputStream(new FileInputStream(fileName));
+            int p = (bin.read() << 8) + bin.read();
+            bin.close();
+            switch (p) {
+                case 0xefbb:
+                    code = "UTF-8";
+                    break;
+                case 0xfffe:
+                    code = "Unicode";
+                    break;
+                case 0xfeff:
+                    code = "UTF-16BE";
+                    break;
+                default:
+                    code = "GBK";
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_content);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.news_toolbar);
+        Toolbar toolbar = findViewById(R.id.news_toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         feedItem = (FeedItem) getIntent().getSerializableExtra("news_item");
         webView = findViewById(R.id.web_view);
@@ -146,35 +165,6 @@ public class NewsContentActivity extends AppCompatActivity {
     }
 
 
-    public static String codeString(String fileName) {
-        BufferedInputStream bin = null;
-        String code = null;
-        try {
-            bin = new BufferedInputStream(new FileInputStream(fileName));
-            int p = (bin.read() << 8) + bin.read();
-            bin.close();
-            switch (p) {
-                case 0xefbb:
-                    code = "UTF-8";
-                    break;
-                case 0xfffe:
-                    code = "Unicode";
-                    break;
-                case 0xfeff:
-                    code = "UTF-16BE";
-                    break;
-                default:
-                    code = "GBK";
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return code;
-    }
-
-
 //    public String getFileEncoding(String filePath){
 //
 //        CodepageDetectorProxy detector = CodepageDetectorProxy.getInstance();
@@ -200,7 +190,6 @@ public class NewsContentActivity extends AppCompatActivity {
 //        }
 //        return charsetName;
 //    }
-
 
     // BEGIN_INCLUDE(get_sap)
     @Override
@@ -245,7 +234,7 @@ public class NewsContentActivity extends AppCompatActivity {
 
             ((TextView) mView.findViewById(R.id.title_text)).setText(feedItem.getTitle());
             ((TextView) mView.findViewById(R.id.description_text)).setText(feedItem.getDescription().replaceAll("<.*?>", ""));
-            final ImageView thumbnails = (ImageView) mView.findViewById(R.id.thumb_img);
+            final ImageView thumbnails = mView.findViewById(R.id.thumb_img);
             final String thumbnailUrl = feedItem.getThumbnailUrl();
 
             final Context context = getApplicationContext();

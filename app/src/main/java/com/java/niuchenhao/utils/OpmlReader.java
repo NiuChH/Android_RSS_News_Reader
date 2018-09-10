@@ -6,27 +6,27 @@ import android.util.Log;
 import com.java.niuchenhao.R;
 import com.java.niuchenhao.model.bean.ChannelItem;
 
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
-import org.jsoup.*;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 // TODO move it to server
 public class OpmlReader {
 
-    private OpmlReader(){
+    private static ArrayList<ChannelItem> li = new ArrayList<>();
+
+    private OpmlReader() {
         throw new AssertionError("OpmlReader is a static class");
     }
 
-    private static ArrayList<ChannelItem> li = new ArrayList<>();
-
-    public static List<ChannelItem> readData(Context context){
+    public static List<ChannelItem> readData(Context context) {
         InputStream inStream;
         String data = null;
         try {
@@ -39,14 +39,14 @@ public class OpmlReader {
             Log.e("OpmlReader", e.toString());
             e.printStackTrace();
         }
-        if(data == null)
+        if (data == null)
             return li;
         Document doc = Jsoup.parse(data);
         JSONObject json = new JSONObject();
         String text, xmlUrl;
         Elements eles = doc.body().getElementsByTag("outline");
-        for(Element ele: eles){
-            if(ele.attr("type").equalsIgnoreCase("rss")){
+        for (Element ele : eles) {
+            if (ele.attr("type").equalsIgnoreCase("rss")) {
                 text = ele.attr("text");
                 xmlUrl = ele.attr("xmlUrl");
                 li.add(new ChannelItem(text, xmlUrl));

@@ -2,8 +2,8 @@ package com.java.niuchenhao.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,13 +19,13 @@ import com.java.niuchenhao.view.adapter.ChannelAdapter;
 
 public class ChannelsActivity extends AppCompatActivity {
 
+    RecyclerView checkedRecyclerView;
+    RecyclerView uncheckedRecyclerView;
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ChannelsActivity.class);
         context.startActivity(intent);
     }
-
-    RecyclerView checkedRecyclerView;
-    RecyclerView uncheckedRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class ChannelsActivity extends AppCompatActivity {
                 ChannelsPresenter.getUncheckedChannels()));
     }
 
-    private void initRecyclerView(RecyclerView recyclerView){
+    private void initRecyclerView(RecyclerView recyclerView) {
 //        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
                 //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
@@ -86,7 +86,7 @@ public class ChannelsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

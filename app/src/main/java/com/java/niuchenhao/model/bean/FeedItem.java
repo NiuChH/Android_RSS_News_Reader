@@ -14,11 +14,6 @@ import static android.support.constraint.Constraints.TAG;
 
 public class FeedItem extends LitePalSupport implements Serializable {
 
-    @Override
-    public int hashCode() {
-        return getLink().hashCode();
-    }
-
     @Column(unique = true)
     private String title;
     @Column(unique = true)
@@ -29,6 +24,18 @@ public class FeedItem extends LitePalSupport implements Serializable {
     private String thumbnailUrl;
     private boolean hadRead;
     private boolean hadReadDescription;
+    private boolean favourite;
+    private String channelTitle;
+
+    public FeedItem() {
+        hadRead = false;
+        hadReadDescription = false;
+    }
+
+    @Override
+    public int hashCode() {
+        return getLink().hashCode();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -55,8 +62,6 @@ public class FeedItem extends LitePalSupport implements Serializable {
                 '}';
     }
 
-    private boolean favourite;
-
     public String getChannelTitle() {
         return channelTitle;
     }
@@ -65,23 +70,20 @@ public class FeedItem extends LitePalSupport implements Serializable {
         this.channelTitle = channelTitle;
     }
 
-    private String channelTitle;
-
-    public FeedItem(){
-        hadRead = false;
-        hadReadDescription = false;
-    }
-
     public boolean isHadRead() {
         return hadRead;
+    }
+
+    public void setHadRead(boolean hadRead) {
+        this.hadRead = hadRead;
     }
 
     public boolean isHadReadDescription() {
         return hadReadDescription;
     }
 
-    public void setHadRead(boolean hadRead){
-        this.hadRead = hadRead;
+    public void setHadReadDescription(boolean hadReadDescription) {
+        this.hadReadDescription = hadReadDescription;
     }
 
     public boolean hadRead() {
@@ -125,11 +127,10 @@ public class FeedItem extends LitePalSupport implements Serializable {
                 this.longDate = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US).parse(pubDate).getTime();
             } catch (ParseException e1) {
                 e1.printStackTrace();
-                Log.d(TAG, "ERROR: "+pubDate);
+                Log.d(TAG, "ERROR: " + pubDate);
             }
         }
     }
-
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
@@ -142,11 +143,6 @@ public class FeedItem extends LitePalSupport implements Serializable {
     public boolean hadReadDescription() {
         return hadReadDescription;
     }
-
-    public void setHadReadDescription(boolean hadReadDescription) {
-        this.hadReadDescription = hadReadDescription;
-    }
-
 
     public long getLongDate() {
         return longDate;
@@ -164,7 +160,7 @@ public class FeedItem extends LitePalSupport implements Serializable {
         this.favourite = favourite;
     }
 
-    public String getFilename(){
+    public String getFilename() {
         return link.replaceAll("[^a-zA-Z0-9]", "");
     }
     //    @Override

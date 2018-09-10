@@ -42,7 +42,6 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(searchAdapter);
 
 
-
         // 设置搜索文本监听
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法

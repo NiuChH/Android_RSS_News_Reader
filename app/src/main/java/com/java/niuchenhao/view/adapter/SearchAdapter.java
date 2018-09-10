@@ -11,21 +11,21 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.java.niuchenhao.view.activity.NewsContentActivity;
 import com.java.niuchenhao.R;
 import com.java.niuchenhao.model.bean.ChannelItem;
 import com.java.niuchenhao.model.bean.FeedItem;
 import com.java.niuchenhao.presenter.FeedsPresenter;
+import com.java.niuchenhao.view.activity.NewsContentActivity;
 
 import java.util.List;
 
-public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchViewHolder>  {
+public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchViewHolder> {
     private final ChannelItem channelItem;
     private final Context context;
 
     public SearchAdapter(Context context, List<FeedItem> datas, ChannelItem channelItem) {
         super(datas);
-        this.context=context;
+        this.context = context;
         this.channelItem = channelItem;
         FeedsPresenter.registerAdapter(channelItem, this);
     }
@@ -49,14 +49,14 @@ public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchVie
     @NonNull
     @Override
     public SearchAdapter.SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.search_news_item, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.search_news_item, parent, false);
         return new SearchViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position) {
         YoYo.with(Techniques.BounceIn).playOn(holder.itemView);
-        holder.current=datas.get(position);
+        holder.current = datas.get(position);
         holder.Title.setText(holder.current.getTitle());
         holder.Date.setText(holder.current.getPubDate());
         holder.cardView.setOnClickListener(v -> {
@@ -67,8 +67,8 @@ public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchVie
         });
     }
 
-    private void refreshHadRead(final SearchAdapter.SearchViewHolder holder){
-        if(holder.current.hadRead()) {
+    private void refreshHadRead(final SearchAdapter.SearchViewHolder holder) {
+        if (holder.current.hadRead()) {
             holder.Title.setTextColor(0xdeb7b7b7);
             holder.Date.setTextColor(0xd0b7b7b7);
         } else {
@@ -79,7 +79,7 @@ public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchVie
     }
 
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder{
+    public class SearchViewHolder extends RecyclerView.ViewHolder {
         TextView Title, Date;
         FeedItem current;
         CardView cardView;

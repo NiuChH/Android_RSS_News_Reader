@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.java.niuchenhao.view.activity.NewsContentActivity;
 import com.java.niuchenhao.R;
 import com.java.niuchenhao.model.DatabaseModel;
 import com.java.niuchenhao.model.bean.ChannelItem;
 import com.java.niuchenhao.model.bean.FeedItem;
 import com.java.niuchenhao.presenter.FeedsPresenter;
+import com.java.niuchenhao.view.activity.NewsContentActivity;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -28,9 +28,10 @@ import java.util.List;
 public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHolder> {
     final private Context context;
     final private ChannelItem channelItem;
-    public FeedsAdapter(Context context, List<FeedItem> feedItems, ChannelItem channelItem){
+
+    public FeedsAdapter(Context context, List<FeedItem> feedItems, ChannelItem channelItem) {
         super(feedItems);
-        this.context=context;
+        this.context = context;
         this.channelItem = channelItem;
         FeedsPresenter.registerAdapter(channelItem, this);
     }
@@ -44,14 +45,14 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
     @NonNull
     @Override
     public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.custum_row_news_item, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.custum_row_news_item, parent, false);
         return new FeedViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final FeedViewHolder holder, int position) {
         YoYo.with(Techniques.FadeIn).playOn(holder.cardView);
-        holder.current=datas.get(position);
+        holder.current = datas.get(position);
         holder.Title.setText(holder.current.getTitle());
         holder.Description.setText(Html.fromHtml(holder.current.getDescription()));
         View.OnClickListener clickOpenUrl = new View.OnClickListener() {
@@ -66,7 +67,7 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         holder.Description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(holder.Description.getMaxLines() < 10)
+                if (holder.Description.getMaxLines() < 10)
                     holder.Description.setMaxLines(100000);
                 else {
                     holder.Description.setMaxLines(3);
@@ -82,9 +83,9 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         final String currentId = holder.getId();
 
 
-        if(holder.current.getThumbnailUrl() == null){
+        if (holder.current.getThumbnailUrl() == null) {
             holder.Thumbnail.setImageDrawable(context.getResources().getDrawable(R.drawable.rss_logo));
-        } else if(!DatabaseModel.getIsOnline()) {
+        } else if (!DatabaseModel.getIsOnline()) {
             // ref: https://stackoverflow.com/questions/23391523/load-images-from-disk-cache-with-picasso-if-offline
             Picasso.with(context)
                     .load(Uri.parse(holder.current.getThumbnailUrl()))
@@ -142,13 +143,13 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         refreshHadRead(holder);
     }
 
-    private void refreshHadRead(final FeedViewHolder holder){
-        if(holder.current.hadRead()) {
+    private void refreshHadRead(final FeedViewHolder holder) {
+        if (holder.current.hadRead()) {
             holder.Title.setTextColor(0xdeb7b7b7);
         } else {
             holder.Title.setTextColor(0xe2ffffff);
         }
-        if(holder.current.hadReadDescription())
+        if (holder.current.hadReadDescription())
             holder.Description.setTextColor(0xe94e4e4e);
         else
             holder.Description.setTextColor(0xe9131313);
@@ -181,26 +182,25 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
 //    }
 
     public class FeedViewHolder extends RecyclerView.ViewHolder {
-        TextView Title,Description,Date;
-
-        public ImageView getThumbnail() {
-            return Thumbnail;
-        }
-
-        public String getId(){
-            return current.getFilename();
-        }
-
+        TextView Title, Description, Date;
         ImageView Thumbnail;
         CardView cardView;
         FeedItem current;
         public FeedViewHolder(View itemView) {
             super(itemView);
-            Title= (TextView) itemView.findViewById(R.id.title_text);
-            Description= (TextView) itemView.findViewById(R.id.description_text);
-            Date= (TextView) itemView.findViewById(R.id.date_text);
-            Thumbnail= (ImageView) itemView.findViewById(R.id.thumb_img);
-            cardView= (CardView) itemView.findViewById(R.id.cardview);
+            Title = itemView.findViewById(R.id.title_text);
+            Description = itemView.findViewById(R.id.description_text);
+            Date = itemView.findViewById(R.id.date_text);
+            Thumbnail = itemView.findViewById(R.id.thumb_img);
+            cardView = itemView.findViewById(R.id.cardview);
+        }
+
+        public ImageView getThumbnail() {
+            return Thumbnail;
+        }
+
+        public String getId() {
+            return current.getFilename();
         }
 
         public FeedItem getCurrent() {

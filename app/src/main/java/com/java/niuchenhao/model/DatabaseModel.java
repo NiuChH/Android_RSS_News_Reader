@@ -8,12 +8,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.java.niuchenhao.presenter.ChannelsPresenter;
-import com.java.niuchenhao.presenter.FeedsPresenter;
-import com.java.niuchenhao.utils.ReadRss;
 import com.java.niuchenhao.model.bean.ChannelItem;
 import com.java.niuchenhao.model.bean.FeedItem;
+import com.java.niuchenhao.presenter.ChannelsPresenter;
+import com.java.niuchenhao.presenter.FeedsPresenter;
 import com.java.niuchenhao.utils.OpmlReader;
+import com.java.niuchenhao.utils.ReadRss;
 
 import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
@@ -32,19 +32,11 @@ import okhttp3.Response;
 import static android.content.ContentValues.TAG;
 
 public class DatabaseModel {
-    private static DatabaseModel databaseModel = new DatabaseModel();
-
-    public static void setIsOnline(boolean isOnline) {
-        DatabaseModel.isOnline = isOnline;
-    }
-
-    private static boolean isOnline;
-
-    private static boolean useServer;
-
     final private static String URL_STRING = "http://183.172.152.155:9999";
-
     final private static Gson gson = new Gson();
+    private static DatabaseModel databaseModel = new DatabaseModel();
+    private static boolean isOnline;
+    private static boolean useServer;
 
     private DatabaseModel() {
         ConnectivityManager connectivityManager = (ConnectivityManager) LitePalApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -64,7 +56,7 @@ public class DatabaseModel {
                     feedItemList.clear();
                 feedItemList.addAll((List<FeedItem>) t);
                 Log.d(TAG, "FindMultiCallback");
-                for(FeedItem fi: feedItemList){
+                for (FeedItem fi : feedItemList) {
                     Log.d(TAG, fi.getTitle());
                 }
                 FeedsPresenter.notifyAdapter(channelItem);
@@ -95,30 +87,30 @@ public class DatabaseModel {
 
     /***********  for Presenters  ***********/
 
-    public static void updateFeedItem(FeedItem feedItem){
+    public static void updateFeedItem(FeedItem feedItem) {
         feedItem.saveOrUpdate("link = ?", feedItem.getLink());
     }
 
-    public static void updateFeedItem(Collection<FeedItem> feedItems){
-        for(FeedItem feedItem: feedItems)
+    public static void updateFeedItem(Collection<FeedItem> feedItems) {
+        for (FeedItem feedItem : feedItems)
             updateFeedItem(feedItem);
     }
 
-    public static void updateChannelItem(ChannelItem channelItem){
+    public static void updateChannelItem(ChannelItem channelItem) {
         channelItem.saveOrUpdate("xmlurl = ?", channelItem.getXmlUrl());
     }
 
-    public static void updateChannelItem(Collection<ChannelItem> channelItems){
-        for(ChannelItem channelItem: channelItems)
+    public static void updateChannelItem(Collection<ChannelItem> channelItems) {
+        for (ChannelItem channelItem : channelItems)
             updateChannelItem(channelItem);
     }
 
     public static List<ChannelItem> getChannelsSync(Context context) {
         List<ChannelItem> result = OpmlReader.readData(context);
         ChannelItem ciDB;
-        for(ChannelItem channelItem: result){
+        for (ChannelItem channelItem : result) {
             ciDB = LitePal.where("xmlurl = ?", channelItem.getXmlUrl()).findFirst(ChannelItem.class);
-            if(ciDB == null){
+            if (ciDB == null) {
                 // 出现这种情况是改变了语言设置
                 LitePal.deleteAll(ChannelItem.class);
                 LitePal.saveAll(result);
@@ -134,12 +126,12 @@ public class DatabaseModel {
     }
 
     public static void getFeedsAsync(final ChannelItem channelItem, final String keyWord, final Integer number, final Boolean isAppend, final List<FeedItem> feedItemList) {
-        if(channelItem.getTitle().equals(ChannelsPresenter.getRecommendChannelItem().getTitle())){
+        if (channelItem.getTitle().equals(ChannelsPresenter.getRecommendChannelItem().getTitle())) {
             getRecommend(channelItem, feedItemList);
-        }else if ((!useServer) && isOnline && keyWord == null) {
+        } else if ((!useServer) && isOnline && keyWord == null) {
             new ReadRss(channelItem, feedItemList).execute(number, isAppend ? 1 : 0);
             Log.d(TAG, "using ReadRss");
-            Log.d(TAG, useServer+ " " + isOnline);
+            Log.d(TAG, useServer + " " + isOnline);
         } else if (useServer && isOnline) {
             final String[] headers = {
                     URL_STRING,
@@ -167,7 +159,8 @@ public class DatabaseModel {
                     for (FeedItem feedItem : result)
                         try {
                             feedItem.saveAsync();
-                        }catch (Exception ignore){}
+                        } catch (Exception ignore) {
+                        }
                 }
             });
         } else {
@@ -175,30 +168,30 @@ public class DatabaseModel {
         }
     }
 
-    public static void getFavourites(final List<FeedItem> feedItemList){
+    public static void getFavourites(final List<FeedItem> feedItemList) {
         LitePal.where("favourite = 1")
                 .findAsync(FeedItem.class)
                 .listen(getNotifyCallBack(null, false, feedItemList));
     }
 
-    public static void getRecommend(final ChannelItem channelItem, final List<FeedItem> feedItemList){
+    public static void getRecommend(final ChannelItem channelItem, final List<FeedItem> feedItemList) {
         LitePal.order("clickcount desc").limit(3).findAsync(ChannelItem.class).listen(new FindMultiCallback() {
             @Override
             public <T> void onFinish(List<T> t) {
-                Log.d("Recommend", ((ChannelItem)t.get(0)).getTitle());
-                Log.d("Recommend", ((ChannelItem)t.get(1)).getTitle());
-                Log.d("Recommend", ((ChannelItem)t.get(2)).getTitle());
+                Log.d("Recommend", ((ChannelItem) t.get(0)).getTitle());
+                Log.d("Recommend", ((ChannelItem) t.get(1)).getTitle());
+                Log.d("Recommend", ((ChannelItem) t.get(2)).getTitle());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    LitePal.select("channeltitle").find(FeedItem.class).forEach( v->
+                    LitePal.select("channeltitle").find(FeedItem.class).forEach(v ->
                             Log.d("Recommend", v.toString()));
                 }
 
                 feedItemList.addAll(
                         LitePal.order("longdate desc")
                                 .where("channeltitle in (?,?,?)",
-                                        ((ChannelItem)t.get(0)).getTitle(),
-                                        ((ChannelItem)t.get(1)).getTitle(),
-                                        ((ChannelItem)t.get(2)).getTitle())
+                                        ((ChannelItem) t.get(0)).getTitle(),
+                                        ((ChannelItem) t.get(1)).getTitle(),
+                                        ((ChannelItem) t.get(2)).getTitle())
                                 .offset(feedItemList.size())
                                 .limit(10)
                                 .find(FeedItem.class)
@@ -228,6 +221,10 @@ public class DatabaseModel {
 
     public static boolean getIsOnline() {
         return isOnline;
+    }
+
+    public static void setIsOnline(boolean isOnline) {
+        DatabaseModel.isOnline = isOnline;
     }
 
     /************* for debug **************/

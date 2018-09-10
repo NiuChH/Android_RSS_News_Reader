@@ -2,8 +2,8 @@ package com.java.niuchenhao.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,10 +17,10 @@ import java.util.List;
 
 public class FavouriteActivity extends AppCompatActivity {
 
+    public static ChannelItem channelItem = new ChannelItem("favourite", "");
     private SearchAdapter searchAdapter;
     private RecyclerView mRecyclerView;
     private List<FeedItem> feedItems;
-    public static ChannelItem channelItem = new ChannelItem("favourite", "");
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, FavouriteActivity.class);

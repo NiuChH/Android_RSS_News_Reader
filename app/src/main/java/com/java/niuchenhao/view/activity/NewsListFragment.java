@@ -57,15 +57,15 @@ public class NewsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("NewsListFragment", "create");
-        try{
+        try {
             channelItem = (ChannelItem) getArguments().getSerializable(ARG_CHANNEL_ITEM);
             feedItems = FeedsPresenter.getFeedItemList(channelItem);
             adapter = new FeedsAdapter(getContext(), feedItems, channelItem);
-            FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.TRUE);
-        } catch (ClassCastException e){
+            FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.TRUE);
+        } catch (ClassCastException e) {
             Log.e("ARG_CHANNEL_ITEM", "not a channelIte!");
             e.printStackTrace();
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Log.e("ARG_CHANNEL_ITEM", "empty!");
             e.printStackTrace();
         }
@@ -88,7 +88,7 @@ public class NewsListFragment extends Fragment {
 
 //        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
         FeedsPresenter.setSwipeRefreshLayout(channelItem, swipeRefresh);
-        FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.FALSE);
+        FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.FALSE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -98,11 +98,11 @@ public class NewsListFragment extends Fragment {
                 int lastVisibleItemPosition = lm.findLastVisibleItemPosition();
                 int visibleItemCount = recyclerView.getChildCount();
 
-                if(newState == RecyclerView.SCROLL_STATE_IDLE
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItemPosition == totalItemCount - 1
                         && visibleItemCount > 0) {
 //                    new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.APPEND);
-                    FeedsPresenter.queryFeedItemList(channelItem,null, 10, Boolean.TRUE);
+                    FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.TRUE);
                 }
             }
         });
@@ -113,7 +113,7 @@ public class NewsListFragment extends Fragment {
             @Override
             public void onRefresh() {
 //                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
-                FeedsPresenter.queryFeedItemList(channelItem, null,10, Boolean.FALSE);
+                FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.FALSE);
 //                swipeRefresh.setRefreshing(false);
             }
         });

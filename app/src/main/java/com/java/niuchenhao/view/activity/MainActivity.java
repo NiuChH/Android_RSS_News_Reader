@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.dialog_deleteAll)
                         .setPositiveButton(R.string.confirm, (dialog, id) -> LitePal.deleteDatabase("database"))
-                        .setNegativeButton(R.string.cancel, (dialog, id) -> {});
+                        .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                        });
                 builder.create().show();
                 break;
             default:
