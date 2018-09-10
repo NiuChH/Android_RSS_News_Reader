@@ -74,8 +74,6 @@
             xmlUrl="http://www.people.com.cn/rss/hm.xml" />
         <outline htmlUrl="http://tc.people.cn" text="通信频道" title="通信频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/tc.xml" />
-        <outline htmlUrl="http://lady.people.cn" text="时尚频道" title="时尚频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/lady.xml" />
         <outline htmlUrl="http://ru.people.cn" text="俄罗斯频道" title="俄罗斯频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/ru.xml" />
         <outline htmlUrl="http://japan.people.cn" text="日本频道" title="日本频道" type="rss" version="RSS"

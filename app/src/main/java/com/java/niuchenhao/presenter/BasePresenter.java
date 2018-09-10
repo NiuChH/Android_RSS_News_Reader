@@ -24,10 +24,6 @@ public class BasePresenter {
         }
     }
 
-//    public static BasePresenter getPresenter(){
-//        return mPresenter;
-//    }
-
     protected static void notifyAdapter(){
         for(NotifiableAdapter adapter : adapterList)
             if(adapter != null)

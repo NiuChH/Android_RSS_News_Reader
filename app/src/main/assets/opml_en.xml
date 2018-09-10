@@ -7,15 +7,16 @@
         <outline htmlUrl="http://english.people.com.cn/90883" text="Foreign_Affairs" title="Foreign_Affairs" type="rss"
             version="RSS"
             xmlUrl="http://english.people.com.cn/rss/90883.xml" />
-        <outline htmlUrl="http://english.people.com.cn/90782" text="Life_Culture" title="Life_Culture" type="rss"
-            version="RSS"
-            xmlUrl="http://english.people.com.cn/rss/90782.xml" />
+
         <outline htmlUrl="http://english.people.com.cn" text="English" title="English" type="rss"
             version="RSS"
             xmlUrl="http://english.people.com.cn/rss/90000.xml" />
         <outline htmlUrl="http://english.people.com.cn/102839" text="Leaders" title="Leaders" type="rss"
             version="RSS"
             xmlUrl="http://english.people.com.cn/rss/102839.xml" />
+        <outline htmlUrl="http://english.people.com.cn/90782" text="Life_Culture"
+            title="Life_Culture" type="rss" version="RSS"
+            xmlUrl="http://english.people.com.cn/rss/90782.xml" />
         <outline htmlUrl="http://english.people.com.cn/90780" text="Opinions" title="Opinions" type="rss"
             version="RSS"
             xmlUrl="http://english.people.com.cn/rss/90780.xml" />

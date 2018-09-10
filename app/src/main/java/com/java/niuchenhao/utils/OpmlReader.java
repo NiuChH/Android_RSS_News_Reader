@@ -52,14 +52,6 @@ public class OpmlReader {
                 li.add(new ChannelItem(text, xmlUrl));
             }
         }
-//        Log.d("OpmlReader", li.toString());
-//        try {
-//            FileWriter fos = new FileWriter(fileName.replace("xml", "txt"));
-//            fos.write(json.toString());
-//            fos.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         return li;
     }
 

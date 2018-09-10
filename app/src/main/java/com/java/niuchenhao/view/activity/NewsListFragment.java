@@ -23,15 +23,10 @@ import java.util.List;
 
 public class NewsListFragment extends Fragment {
 
-//    private static final String ARG_XML_URL = "xmlUrl";
-
     private static final String ARG_CHANNEL_ITEM = "channel item";
 
     private ChannelItem channelItem;
 
-//    private String xmlUrl;
-
-//    private OnFragmentInteractionListener mListener;
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -86,7 +81,6 @@ public class NewsListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         //Call Read rss async task to fetch rss
 
-//        new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
         FeedsPresenter.setSwipeRefreshLayout(channelItem, swipeRefresh);
         FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.FALSE);
 
@@ -101,7 +95,6 @@ public class NewsListFragment extends Fragment {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItemPosition == totalItemCount - 1
                         && visibleItemCount > 0) {
-//                    new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.APPEND);
                     FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.TRUE);
                 }
             }
@@ -112,9 +105,7 @@ public class NewsListFragment extends Fragment {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                new ReadRss(channelItem, adapter, swipeRefresh, feedItems).execute(10, ReadRss.REFRESH);
                 FeedsPresenter.queryFeedItemList(channelItem, null, 10, Boolean.FALSE);
-//                swipeRefresh.setRefreshing(false);
             }
         });
 

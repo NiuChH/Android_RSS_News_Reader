@@ -100,44 +100,6 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
                     .into(holder.Thumbnail);
         }
 
-//        Picasso.with(context).load(holder.current.getThumbnailUrl()).into(thumbnails);
-//        if(DatabaseModel.getIsOnline())
-//            Picasso.with(context).load(holder.current.getThumbnailUrl()).into(new Target() {
-//                @Override
-//                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                    Log.i(TAG, "The image was obtained correctly from "+from);
-//                    thumbnails.setImageBitmap(bitmap);
-////                    PicUtils.savePic(context.getFilesDir().getPath(), currentId +".png", bitmap);
-//                }
-//
-//                @Override
-//                public void onBitmapFailed(Drawable errorDrawable) {
-//                    Log.e(TAG, "The image was not obtained");
-//
-//                }
-//
-//                @Override
-//                public void onPrepareLoad(Drawable placeHolderDrawable) {
-//                    Log.i(TAG, "Getting ready to get the image");
-////                    thumbnails.setImageURI(Uri.parse("R.drawable.ic_comment.png"));
-//                    //Here you should place a loading gif in the ImageView
-//                    //while image is being obtained.
-//                }
-//            });
-//        else
-//            Picasso.with(context).load(context.getFilesDir().getPath()+"/"+ currentId+".png").into(thumbnails);
-
-//        if(DatabaseModel.getIsOnline()) {
-//            RequestCreator rc = Picasso.with(context).load(holder.current.getThumbnailUrl());
-//            rc.into(holder.Thumbnail);
-//            try {
-//                PicUtils.savePic(context.getFilesDir().getPath(), holder.getId() +".png", rc.get());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            Picasso.with(context).load(context.getFilesDir().getPath()+"/"+ holder.getId()+".png").into(holder.Thumbnail);
-//        }
         holder.Thumbnail.setOnClickListener(clickOpenUrl);
         holder.Title.setOnClickListener(clickOpenUrl);
         refreshHadRead(holder);
@@ -167,19 +129,6 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         return true;
     }
 
-//    class MyCardView extends CardView{
-//
-//        public MyCardView(@NonNull final Context context) {
-//            super(context);
-//            setOnClickListener(new OnClickListener() {
-//                @SuppressLint("ShowToast")
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(context, "click!", Toast.LENGTH_LONG);
-//                }
-//            });
-//        }
-//    }
 
     public class FeedViewHolder extends RecyclerView.ViewHolder {
         TextView Title, Description, Date;

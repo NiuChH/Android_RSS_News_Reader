@@ -42,23 +42,15 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(searchAdapter);
 
 
-        // 设置搜索文本监听
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // 当点击搜索按钮时触发该方法
             @Override
             public boolean onQueryTextSubmit(String query) {
-                FeedsPresenter.queryFeedItemList(channelItem, '%' + query + '%', 10, false);
+                FeedsPresenter.queryFeedItemList(channelItem, '%' + query + '%', 20, false);
                 return false;
             }
 
-            // 当搜索内容改变时触发该方法
             @Override
             public boolean onQueryTextChange(String newText) {
-//                if (!TextUtils.isEmpty(newText)){
-//                    mListView.setFilterText(newText);
-//                }else{
-//                    mListView.clearTextFilter();
-//                }
                 return false;
             }
         });

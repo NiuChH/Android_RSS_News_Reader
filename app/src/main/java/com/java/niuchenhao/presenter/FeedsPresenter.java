@@ -3,11 +3,11 @@ package com.java.niuchenhao.presenter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
-import com.java.niuchenhao.view.activity.FavouriteActivity;
-import com.java.niuchenhao.view.adapter.NotifiableAdapter;
 import com.java.niuchenhao.model.DatabaseModel;
 import com.java.niuchenhao.model.bean.ChannelItem;
 import com.java.niuchenhao.model.bean.FeedItem;
+import com.java.niuchenhao.view.activity.FavouriteActivity;
+import com.java.niuchenhao.view.adapter.NotifiableAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,9 +68,9 @@ public class FeedsPresenter extends BasePresenter {
             dataMap.get(FavouriteActivity.channelItem).add(feedItem);
         } else
             dataMap.get(FavouriteActivity.channelItem).remove(feedItem);
-        for(FeedItem f: dataMap.get(FavouriteActivity.channelItem)){
-            Log.d("toggle", f.getTitle() + " " + f.isFavourite());
-        }
+//        for(FeedItem f: dataMap.get(FavouriteActivity.channelItem)){
+//            Log.d("toggle", f.getTitle() + " " + f.isFavourite());
+//        }
 
         DatabaseModel.updateFeedItem(feedItem);
         notifyAdapter(FavouriteActivity.channelItem);

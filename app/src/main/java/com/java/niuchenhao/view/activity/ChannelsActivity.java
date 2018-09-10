@@ -66,13 +66,6 @@ public class ChannelsActivity extends AppCompatActivity {
                         return Gravity.BOTTOM;
                     }
                 })
-                //you are able to break row due to your conditions. Row breaker should return true for that views
-//                .setRowBreaker(new IRowBreaker() {
-//                    @Override
-//                    public boolean isItemBreakRow(@IntRange(from = 0) int position) {
-//                        return position == 6 || position == 11;
-//                    }
-//                })
                 //a layoutOrientation of layout manager, could be VERTICAL OR HORIZONTAL. HORIZONTAL by default
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
                 // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,

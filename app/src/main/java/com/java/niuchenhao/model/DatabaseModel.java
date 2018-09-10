@@ -158,7 +158,7 @@ public class DatabaseModel {
                     FeedsPresenter.notifyAdapter(channelItem);
                     for (FeedItem feedItem : result)
                         try {
-                            feedItem.saveAsync();
+                            feedItem.save();
                         } catch (Exception ignore) {
                         }
                 }
@@ -186,17 +186,24 @@ public class DatabaseModel {
                             Log.d("Recommend", v.toString()));
                 }
 
-                feedItemList.addAll(
-                        LitePal.order("longdate desc")
-                                .where("channeltitle in (?,?,?)",
-                                        ((ChannelItem) t.get(0)).getTitle(),
-                                        ((ChannelItem) t.get(1)).getTitle(),
-                                        ((ChannelItem) t.get(2)).getTitle())
-                                .offset(feedItemList.size())
-                                .limit(10)
-                                .find(FeedItem.class)
-                );
-                FeedsPresenter.notifyAdapter(channelItem);
+                List<FeedItem> result = LitePal.order("longdate desc")
+                        .where("channeltitle in (?,?,?)",
+                                ((ChannelItem) t.get(0)).getTitle(),
+                                ((ChannelItem) t.get(1)).getTitle(),
+                                ((ChannelItem) t.get(2)).getTitle())
+                        .offset(feedItemList.size())
+                        .limit(10)
+                        .find(FeedItem.class);
+                if (result.size() < 5) {
+                    LitePal.where("channeltitle = ?", ((ChannelItem) t.get(0)).getTitle())
+                            .limit(10)
+                            .offset(feedItemList.size())
+                            .findAsync(FeedItem.class)
+                            .listen(getNotifyCallBack(channelItem, true, feedItemList));
+                } else {
+                    feedItemList.addAll(result);
+                    FeedsPresenter.notifyAdapter(channelItem);
+                }
             }
         });
     }

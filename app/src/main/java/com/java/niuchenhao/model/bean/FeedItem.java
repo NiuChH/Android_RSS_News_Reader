@@ -163,13 +163,5 @@ public class FeedItem extends LitePalSupport implements Serializable {
     public String getFilename() {
         return link.replaceAll("[^a-zA-Z0-9]", "");
     }
-    //    @Override
-//    public <T> boolean isSameModelAs(@NonNull T model) {
-//        return model instanceof FeedItem && ((FeedItem) model).getLink().equals(link);
-//    }
-//
-//    @Override
-//    public <T> boolean isContentTheSameAs(@NonNull T model) {
-//        return true;
-//    }
+
 }

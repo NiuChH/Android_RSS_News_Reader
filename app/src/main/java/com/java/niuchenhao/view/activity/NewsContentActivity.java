@@ -269,7 +269,7 @@ public class NewsContentActivity extends AppCompatActivity {
             //放置mView
             mView.layout(0, 0, mView.getMeasuredWidth(), mView.getMeasuredHeight());
             Bitmap bitmap = mView.getDrawingCache();
-            Intent shareIntent = ShareUitls.file2ShareIntent(ShareUitls.bitMap2File(bitmap, getApplicationContext()));
+            Intent shareIntent = ShareUitls.file2ShareIntent(ShareUitls.bitMap2File(bitmap, getApplicationContext(), feedItem.getFilename()), getResources().getString(R.string.menu_share));
             if (shareIntent != null)
                 mShareActionProvider.setShareIntent(shareIntent);
             else
@@ -329,8 +329,6 @@ public class NewsContentActivity extends AppCompatActivity {
                     Log.d("toggle00", feedItem.getTitle() + " " + feedItem.isFavourite());
                     refreshFavourite(item);
                     FeedsPresenter.toggleFavourite(feedItem);
-//                    File file = new File(Environment.getExternalStorageDirectory(),feedItem.getFilename()+".mht");
-//                    webView.saveWebArchive(file.getAbsolutePath());
                     webView.saveWebArchive(getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
                     Log.d("path: ", getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
                 } else {
@@ -346,8 +344,6 @@ public class NewsContentActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-//                FeedsPresenter.toggleFavourite(feedItem);
-//                refreshFavourite(item);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
