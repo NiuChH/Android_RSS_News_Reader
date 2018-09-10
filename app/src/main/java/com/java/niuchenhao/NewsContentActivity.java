@@ -3,24 +3,32 @@ package com.java.niuchenhao;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.database.DatabaseUtils;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.java.niuchenhao.bean.FeedItem;
+import com.java.niuchenhao.utils.ShareUitls;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -28,10 +36,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -69,6 +75,7 @@ public class NewsContentActivity extends AppCompatActivity {
 
         feedItem = (FeedItem) getIntent().getSerializableExtra("news_item");
         webView = findViewById(R.id.web_view);
+
 //        WebSettings settings = webView.getSettings();
 //
 //        String ua = settings.getUserAgentString();
@@ -94,7 +101,7 @@ public class NewsContentActivity extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
         settings.setAppCacheEnabled(true);
-        String appCachDir =this.getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
+        String appCachDir = this.getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
         settings.setAppCachePath(appCachDir);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         settings.setAllowFileAccessFromFileURLs(true);
@@ -109,23 +116,32 @@ public class NewsContentActivity extends AppCompatActivity {
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                invalidateOptionsMenu();
+                super.onPageFinished(view, url);
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient());
 
-        if(feedItem.isFavourite()) {
-            // TODO check this
-            String path = getExternalFilesDir(null)+File.separator+feedItem.getFilename()+".mht";
-            File file = new File(getExternalFilesDir(null),feedItem.getFilename()+".mht");
-            settings.setDefaultTextEncodingName(codeString(path));
-            Log.d("1path: ", codeString(path)+" "+ file.exists() + "file:///"+getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
-            if(file.exists())
-                webView.loadUrl("file:///"+getExternalFilesDir(null)+ File.separator + feedItem.getFilename() + ".mht");
+        webView.loadUrl(feedItem.getLink());
+
+//        if (feedItem.isFavourite() && !(DatabaseModel.getIsOnline())) {
+//            // TODO check this
+//            String path = getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht";
+//            File file = new File(getExternalFilesDir(null), feedItem.getFilename() + ".mht");
+//            settings.setDefaultTextEncodingName(codeString(path));
+////            Log.d("1path: ", codeString(path) + " " + file.exists() + "file:///" + getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
+//            if (file.exists())
+//                webView.loadUrl("file:///" + getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
 //            else
 //                webView.loadUrl(feedItem.getLink());
-        } else
-            webView.loadUrl(feedItem.getLink());
+//        } else
+//            webView.loadUrl(feedItem.getLink());
+
+
     }
-
-
 
 
     public static String codeString(String fileName) {
@@ -153,8 +169,6 @@ public class NewsContentActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return code;
     }
 
@@ -202,42 +216,70 @@ public class NewsContentActivity extends AppCompatActivity {
 
         setShareIntent();
 
+
+
         refreshFavourite(menu.findItem(R.id.menu_favourite));
 
         return super.onCreateOptionsMenu(menu);
     }
     // END_INCLUDE(get_sap)
 
-    private void refreshFavourite(MenuItem item){
-        if(feedItem.isFavourite()) {
+    private void refreshFavourite(MenuItem item) {
+        if (feedItem.isFavourite()) {
             item.setIcon(R.drawable.ic_favorite_black_24dp);
             item.setTitle(R.string.unfavourite);
-        }else {
+        } else {
             item.setIcon(R.drawable.ic_favorite_border_black_24dp);
             item.setTitle(R.string.favourite);
         }
     }
 
+    private void ShareViewHolder() {
+
+    }
+
+
     private void setShareIntent() {
         // BEGIN_INCLUDE(update_sap)
         if (mShareActionProvider != null) {
-            // Get the currently selected item, and retrieve it's share intent
 
-//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//
-//            //TODO set MIME type with switch
-//            shareIntent.setType("text/plain");
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, feedItem.getLink());
+            View mView = LayoutInflater.from(this).inflate(R.layout.custum_row_news_item, null);
+
+            final ImageView thumbnails = (ImageView)mView.findViewById(R.id.thumb_img);
+            final String thumbnailUrl = feedItem.getThumbnailUrl();
+
+            if(thumbnailUrl == null){
+                thumbnails.setImageDrawable(getResources().getDrawable(R.drawable.rss_logo));
+            } else {
+                Picasso.with(this).load(feedItem.getThumbnailUrl()).into(thumbnails);
+            }
+            ((TextView)mView.findViewById(R.id.title_text)).setText(feedItem.getTitle());
+            ((TextView)mView.findViewById(R.id.description_text)).setText(feedItem.getDescription());
+
+
+            mView.setDrawingCacheEnabled(true);
+            //图片的宽度为屏幕宽度，高度为wrap_content
+            mView.measure(View.MeasureSpec.makeMeasureSpec(getResources().getDisplayMetrics().widthPixels, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            //放置mView
+            mView.layout(0, 0, mView.getMeasuredWidth(), mView.getMeasuredHeight());
+            mView.buildDrawingCache();
+            Bitmap bitmap = mView.getDrawingCache();
+
 
             // Now update the ShareActionProvider with the new share intent
-            mShareActionProvider.setShareIntent(createIntent(feedItem));
+//            mShareActionProvider.setShareIntent(createIntent(feedItem));
+            Intent shareIntent = ShareUitls.file2ShareIntent(ShareUitls.bitMap2File(bitmap, this));
+            if (shareIntent != null)
+                mShareActionProvider.setShareIntent(shareIntent);
+            else
+                Log.e("NewsActivity", "null share intent");
         } else {
             Log.e("NewsActivity", "null share provider");
         }
         // END_INCLUDE(update_sap)
     }
 
-    private Intent createIntent(FeedItem feedItem){
+    private Intent createIntent(FeedItem feedItem) {
         Intent intent = new Intent();
         intent.putExtra(Intent.EXTRA_SUBJECT, feedItem.getTitle());//一般用于邮件
         intent.putExtra(Intent.EXTRA_TEXT,
@@ -245,10 +287,10 @@ public class NewsContentActivity extends AppCompatActivity {
                         .replaceAll("<.*?>", "")
                         + " " + feedItem.getLink());
         boolean hasImage = (feedItem.getThumbnailUrl() != null);
-        if(!hasImage){//如果没有图片则设置类型为text/plain
+        if (!hasImage) {//如果没有图片则设置类型为text/plain
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("text/plain");
-        }else{
+        } else {
             //获取要分享的Image的Uri数字
             ArrayList<Uri> imageUris = new ArrayList<>();
             try {
@@ -263,35 +305,33 @@ public class NewsContentActivity extends AppCompatActivity {
 
             //只要有图片就设置type为image/*
             intent.setType("image/*");
-            if(imageUris.size() == 1){
+            if (imageUris.size() == 1) {
                 //一张图片用ACTION_SEND
                 intent.setAction(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_STREAM, imageUris.get(0));
-            }else{
+            } else {
                 //多张图片用ACTION_SEND_MUTIPLE
                 intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,imageUris);
+                intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
             }
         }
         return Intent.createChooser(intent, getResources().getString(R.string.menu_share));
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_favourite:
-                if(!feedItem.isFavourite()){
+                if (!feedItem.isFavourite()) {
                     feedItem.setFavourite(true);
                     Log.d("toggle00", feedItem.getTitle() + " " + feedItem.isFavourite());
                     refreshFavourite(item);
                     FeedsPresenter.toggleFavourite(feedItem);
 //                    File file = new File(Environment.getExternalStorageDirectory(),feedItem.getFilename()+".mht");
 //                    webView.saveWebArchive(file.getAbsolutePath());
-                    webView.saveWebArchive( getExternalFilesDir(null)+ File.separator+ feedItem.getFilename() + ".mht");
-                    Log.d("path: ", getExternalFilesDir(null)+ File.separator+ feedItem.getFilename() + ".mht");
+                    webView.saveWebArchive(getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
+                    Log.d("path: ", getExternalFilesDir(null) + File.separator + feedItem.getFilename() + ".mht");
                 } else {
                     feedItem.setFavourite(false);
                     Log.d("toggle0", feedItem.getTitle() + " " + feedItem.isFavourite());
@@ -308,8 +348,12 @@ public class NewsContentActivity extends AppCompatActivity {
 //                FeedsPresenter.toggleFavourite(feedItem);
 //                refreshFavourite(item);
                 break;
-           default:
-               return super.onOptionsItemSelected(item);
+//            case R.id.menu_share:
+//                setShareIntent();
+//                Log.d("share","share");
+//                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }

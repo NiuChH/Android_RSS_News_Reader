@@ -90,26 +90,30 @@ public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHol
         final String currentId = holder.getId();
 
 
-        // ref: https://stackoverflow.com/questions/23391523/load-images-from-disk-cache-with-picasso-if-offline
-        Picasso.with(context)
-                .load(Uri.parse(holder.current.getThumbnailUrl()))
-                .networkPolicy(NetworkPolicy.OFFLINE)
-                .into(holder.Thumbnail, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(holder.current.getThumbnailUrl() == null){
+            holder.Thumbnail.setImageDrawable(context.getResources().getDrawable(R.drawable.rss_logo));
+        } else {
+            // ref: https://stackoverflow.com/questions/23391523/load-images-from-disk-cache-with-picasso-if-offline
+            Picasso.with(context)
+                    .load(Uri.parse(holder.current.getThumbnailUrl()))
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(holder.Thumbnail, new Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
-                        // Try again online if cache failed
-                        Picasso.with(context)
-                                .load(Uri.parse(holder.current.getThumbnailUrl()))
-                                .placeholder(R.drawable.ic_backup)
-                                .error(R.drawable.ic_delete)
-                                .into(holder.Thumbnail);
-                    }
-                });
+                        @Override
+                        public void onError() {
+                            // Try again online if cache failed
+                            Picasso.with(context)
+                                    .load(Uri.parse(holder.current.getThumbnailUrl()))
+                                    .placeholder(R.drawable.rss_logo)
+                                    .error(R.drawable.rss_logo)
+                                    .into(holder.Thumbnail);
+                        }
+                    });
+        }
 
 //        Picasso.with(context).load(holder.current.getThumbnailUrl()).into(thumbnails);
 //        if(DatabaseModel.getIsOnline())

@@ -101,13 +101,14 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
                             break;
                         case "full-text":
                         case "description":
-                            feeditem.setDescription(e.text().replaceAll("<img.*?/>", ""));
+                            feeditem.setDescription(e.text().replaceAll("(<img.*?/>)|(<IMG.*?/>)", ""));
                             Elements maybeImg = Jsoup.parse(e.text()).getElementsByTag("img");
+                            maybeImg.addAll(Jsoup.parse(e.text()).getElementsByTag("IMG"));
                             if(!maybeImg.isEmpty())
                                 feeditem.setThumbnailUrl(maybeImg.first().attr("src"));
                             else
                                 // TODO edit default ThumbnailUrl
-                                feeditem.setThumbnailUrl("file:///android_asset/rss_loge.gif");
+                                feeditem.setThumbnailUrl(null);
                             break;
                         case "pubDate":
                                 feeditem.setPubDate(e.text());

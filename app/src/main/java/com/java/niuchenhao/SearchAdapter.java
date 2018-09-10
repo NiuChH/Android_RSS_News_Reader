@@ -2,6 +2,7 @@ package com.java.niuchenhao;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchVie
         holder.current=datas.get(position);
         holder.Title.setText(holder.current.getTitle());
         holder.Date.setText(holder.current.getPubDate());
-        holder.Title.setOnClickListener(v -> {
+        holder.cardView.setOnClickListener(v -> {
             holder.current.setHadRead(true);
             refreshHadRead(holder);
             FeedsPresenter.addClick(holder.current);
@@ -79,9 +80,11 @@ public class SearchAdapter extends BaseAdapter<FeedItem, SearchAdapter.SearchVie
     public class SearchViewHolder extends RecyclerView.ViewHolder{
         TextView Title, Date;
         FeedItem current;
+        CardView cardView;
 
         public SearchViewHolder(View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.search_item);
             Title = itemView.findViewById(R.id.search_title);
             Date = itemView.findViewById(R.id.search_date);
         }

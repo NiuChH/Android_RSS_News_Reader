@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/thumb_img"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/date_text"
             android:layout_centerHorizontal="true" />
 
@@ -33,13 +33,14 @@
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/thumb_img"
+            android:layout_below="@+id/thumb_img"
             android:layout_centerHorizontal="true"
             android:textColor="#e2ffffff"
             android:background="#dc000000"
             android:ellipsize="end"
             android:gravity="center"
-            android:lines="1"
+            android:maxLines="2"
+            android:minLines="1"
             android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceMediumInverse" />
 
@@ -51,12 +52,20 @@
             android:layout_margin="16dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/thumb_img"
+            android:layout_below="@+id/title_text"
             android:layout_alignRight="@+id/date_text"
             android:textColor="#e9131313"
-            android:maxLines="3"
+            android:maxLines="4"
             android:minLines="1"
             android:layout_alignEnd="@+id/date_text" />
+
+
+        <ImageView
+            android:id="@+id/zxing_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description_text"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 

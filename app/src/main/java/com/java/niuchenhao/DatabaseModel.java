@@ -188,7 +188,8 @@ public class DatabaseModel {
                                         ((ChannelItem)t.get(0)).getTitle(),
                                         ((ChannelItem)t.get(1)).getTitle(),
                                         ((ChannelItem)t.get(2)).getTitle())
-                                .limit(30)
+                                .offset(feedItemList.size())
+                                .limit(10)
                                 .find(FeedItem.class)
                 );
                 FeedsPresenter.notifyAdapter(channelItem);
