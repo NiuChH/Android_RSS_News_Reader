@@ -5,8 +5,9 @@
     </head>
     <body>
 
-        <outline htmlUrl="http://finance.people.cn" text="财经频道" title="财经频道" type="rss"
-            version="RSS" xmlUrl="http://www.people.com.cn/rss/finance.xml" />
+
+        <outline htmlUrl="http://game.people.cn" text="游戏频道" title="游戏频道" type="rss" version="RSS"
+            xmlUrl="http://www.people.com.cn/rss/game.xml" />
 
         <outline htmlUrl="http://ent.people.cn" text="娱乐频道" title="娱乐频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/ent.xml" />
@@ -26,9 +27,8 @@
         <outline htmlUrl="http://theory.people.cn" text="理论频道" title="理论频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/theory.xml" />
 
-
-        <outline htmlUrl="http://game.people.cn" text="游戏频道" title="游戏频道" type="rss" version="RSS"
-            xmlUrl="http://www.people.com.cn/rss/game.xml" />
+        <outline htmlUrl="http://finance.people.cn" text="财经频道" title="财经频道" type="rss"
+            version="RSS" xmlUrl="http://www.people.com.cn/rss/finance.xml" />
 
         <outline htmlUrl="http://world.people.cn" text="国际频道" title="国际频道" type="rss" version="RSS"
             xmlUrl="http://www.people.com.cn/rss/world.xml" />
