@@ -24,8 +24,11 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
 import com.java.niuchenhao.bean.FeedItem;
 import com.java.niuchenhao.utils.ShareUitls;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -116,7 +119,7 @@ public class NewsContentActivity extends AppCompatActivity {
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
 
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 invalidateOptionsMenu();
@@ -216,8 +219,6 @@ public class NewsContentActivity extends AppCompatActivity {
 
         setShareIntent();
 
-
-
         refreshFavourite(menu.findItem(R.id.menu_favourite));
 
         return super.onCreateOptionsMenu(menu);
@@ -234,41 +235,45 @@ public class NewsContentActivity extends AppCompatActivity {
         }
     }
 
-    private void ShareViewHolder() {
-
-    }
-
-
     private void setShareIntent() {
+
         // BEGIN_INCLUDE(update_sap)
         if (mShareActionProvider != null) {
 
             View mView = LayoutInflater.from(this).inflate(R.layout.custum_row_news_item, null);
 
-            final ImageView thumbnails = (ImageView)mView.findViewById(R.id.thumb_img);
+            final ImageView thumbnails = (ImageView) mView.findViewById(R.id.thumb_img);
             final String thumbnailUrl = feedItem.getThumbnailUrl();
 
-            if(thumbnailUrl == null){
-                thumbnails.setImageDrawable(getResources().getDrawable(R.drawable.rss_logo));
+            if (thumbnailUrl == null) {
+                Picasso.with(this).load(R.drawable.rss_logo).into(thumbnails);
+//                thumbnails.setImageDrawable(getResources().getDrawable(R.drawable.rss_logo));
             } else {
                 Picasso.with(this).load(feedItem.getThumbnailUrl()).into(thumbnails);
             }
-            ((TextView)mView.findViewById(R.id.title_text)).setText(feedItem.getTitle());
-            ((TextView)mView.findViewById(R.id.description_text)).setText(feedItem.getDescription());
+            ((TextView) mView.findViewById(R.id.title_text)).setText(feedItem.getTitle());
+            ((TextView) mView.findViewById(R.id.description_text)).setText(feedItem.getDescription().replaceAll("<.*?>", ""));
+            ((TextView) mView.findViewById(R.id.description_text)).setMaxLines(10);
 
+            try {
+                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                Bitmap qr_bitmap;
+                qr_bitmap = barcodeEncoder.encodeBitmap(feedItem.getLink(), BarcodeFormat.QR_CODE, 400, 400);
+                ImageView imageViewQrCode = mView.findViewById(R.id.zxing_img);
+                imageViewQrCode.setImageBitmap(qr_bitmap);
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
 
             mView.setDrawingCacheEnabled(true);
             //图片的宽度为屏幕宽度，高度为wrap_content
             mView.measure(View.MeasureSpec.makeMeasureSpec(getResources().getDisplayMetrics().widthPixels, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             //放置mView
             mView.layout(0, 0, mView.getMeasuredWidth(), mView.getMeasuredHeight());
+
             mView.buildDrawingCache();
             Bitmap bitmap = mView.getDrawingCache();
-
-
-            // Now update the ShareActionProvider with the new share intent
-//            mShareActionProvider.setShareIntent(createIntent(feedItem));
-            Intent shareIntent = ShareUitls.file2ShareIntent(ShareUitls.bitMap2File(bitmap, this));
+            Intent shareIntent = ShareUitls.file2ShareIntent(ShareUitls.bitMap2File(bitmap, getApplicationContext()));
             if (shareIntent != null)
                 mShareActionProvider.setShareIntent(shareIntent);
             else
@@ -348,10 +353,6 @@ public class NewsContentActivity extends AppCompatActivity {
 //                FeedsPresenter.toggleFavourite(feedItem);
 //                refreshFavourite(item);
                 break;
-//            case R.id.menu_share:
-//                setShareIntent();
-//                Log.d("share","share");
-//                return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }

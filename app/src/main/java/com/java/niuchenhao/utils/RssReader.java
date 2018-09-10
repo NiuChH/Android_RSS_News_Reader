@@ -49,7 +49,7 @@ public class RssReader {
                                     feeditem.setThumbnailUrl(maybeImg.first().attr("src"));
                                 else
                                     // TODO edit default ThumbnailUrl
-                                    feeditem.setThumbnailUrl("drawable/nav_icon.png");
+                                    feeditem.setThumbnailUrl(null);
                                 break;
                             case "pubDate":
                                 feeditem.setPubDate(e.text());

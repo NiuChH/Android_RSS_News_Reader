@@ -50,10 +50,8 @@ public class ShareUitls {
 
 
         String path = "";
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            path = context.getExternalCacheDir() + File.separator;//保存到sd根目录下
-        }
 
+        path = context.getExternalCacheDir() + File.separator;//保存到sd根目录下
 
         //        File f = new File(path, System.currentTimeMillis() + ".jpg");
         File f = new File(path, "share" + ".jpg");
