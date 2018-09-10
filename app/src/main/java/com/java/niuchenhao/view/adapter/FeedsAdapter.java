@@ -1,15 +1,11 @@
-package com.java.niuchenhao;
+package com.java.niuchenhao.view.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +14,16 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.java.niuchenhao.bean.ChannelItem;
-import com.java.niuchenhao.bean.FeedItem;
-import com.java.niuchenhao.utils.PicUtils;
-import com.squareup.picasso.Callback;
+import com.java.niuchenhao.view.activity.NewsContentActivity;
+import com.java.niuchenhao.R;
+import com.java.niuchenhao.model.DatabaseModel;
+import com.java.niuchenhao.model.bean.ChannelItem;
+import com.java.niuchenhao.model.bean.FeedItem;
+import com.java.niuchenhao.presenter.FeedsPresenter;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Target;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class FeedsAdapter extends BaseAdapter<FeedItem, FeedsAdapter.FeedViewHolder> {
     final private Context context;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.java.niuchenhao.R;
-import com.java.niuchenhao.bean.ChannelItem;
+import com.java.niuchenhao.model.bean.ChannelItem;
 
 import java.io.IOException;
 import java.io.InputStream;

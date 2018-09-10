@@ -1,4 +1,4 @@
-package com.java.niuchenhao;
+package com.java.niuchenhao.model;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -8,15 +8,16 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.java.niuchenhao.bean.ChannelItem;
-import com.java.niuchenhao.bean.FeedItem;
+import com.java.niuchenhao.presenter.ChannelsPresenter;
+import com.java.niuchenhao.presenter.FeedsPresenter;
+import com.java.niuchenhao.utils.ReadRss;
+import com.java.niuchenhao.model.bean.ChannelItem;
+import com.java.niuchenhao.model.bean.FeedItem;
 import com.java.niuchenhao.utils.OpmlReader;
 
 import org.litepal.LitePal;
 import org.litepal.LitePalApplication;
-import org.litepal.LitePalDB;
 import org.litepal.crud.callback.FindMultiCallback;
-import org.litepal.parser.LitePalParser;
 
 import java.io.IOException;
 import java.util.Collection;

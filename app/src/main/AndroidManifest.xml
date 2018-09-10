@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,25 +35,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewsContentActivity"
+            android:name=".view.activity.NewsContentActivity"
             android:label="@string/title_activity_news_content"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ChannelsActivity" />
+        <activity android:name=".view.activity.ChannelsActivity" />
 
         <!-- ContentProvider which serves files from this application's asset folder -->
         <!-- Allow the access to only the apps having the same signature for security -->
-        <provider
-            android:name=".utils.AssetProvider"
-            android:authorities="com.java.niuchenhao.shareactionprovider"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:permission="com.java.niuchenhao.ASSET_ACCESS" />
 
         <activity
-            android:name=".SearchActivity"
+            android:name=".view.activity.SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme" />
-        <activity android:name=".FavouriteActivity"></activity>
+        <activity android:name=".view.activity.FavouriteActivity"></activity>
     </application>
 
 </manifest>

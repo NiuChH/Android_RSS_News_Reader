@@ -32,8 +32,8 @@
     	</list>
     -->
     <list>
-        <mapping class="com.java.niuchenhao.bean.FeedItem" />
-        <mapping class="com.java.niuchenhao.bean.ChannelItem" />
+        <mapping class="com.java.niuchenhao.model.bean.FeedItem" />
+        <mapping class="com.java.niuchenhao.model.bean.ChannelItem" />
     </list>
 
     <!--

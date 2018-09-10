@@ -1,4 +1,6 @@
-package com.java.niuchenhao;
+package com.java.niuchenhao.presenter;
+
+import com.java.niuchenhao.view.adapter.NotifiableAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,15 +8,15 @@ import java.util.List;
 public class BasePresenter {
 
     private static BasePresenter mPresenter = new BasePresenter();
-    private static List<Notifiable> adapterList = new LinkedList<>();
+    private static List<NotifiableAdapter> adapterList = new LinkedList<>();
 
     BasePresenter(){}
 
-    public static void registerAdapter(Notifiable adapter){
+    public static void registerAdapter(NotifiableAdapter adapter){
         adapterList.add(adapter);
     }
 
-    public static void unregisterAdapter(Notifiable adapter){
+    public static void unregisterAdapter(NotifiableAdapter adapter){
         try {
             adapterList.remove(adapter);
         } catch (Exception e){
@@ -27,7 +29,7 @@ public class BasePresenter {
 //    }
 
     protected static void notifyAdapter(){
-        for(Notifiable adapter : adapterList)
+        for(NotifiableAdapter adapter : adapterList)
             if(adapter != null)
                 adapter.notifyDiff();
     }

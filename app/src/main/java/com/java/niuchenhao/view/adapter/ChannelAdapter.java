@@ -1,4 +1,4 @@
-package com.java.niuchenhao;
+package com.java.niuchenhao.view.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.java.niuchenhao.bean.ChannelItem;
+import com.java.niuchenhao.R;
+import com.java.niuchenhao.model.bean.ChannelItem;
+import com.java.niuchenhao.presenter.ChannelsPresenter;
 
 import java.util.List;
 

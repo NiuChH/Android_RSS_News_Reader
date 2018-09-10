@@ -1,4 +1,4 @@
-package com.java.niuchenhao;
+package com.java.niuchenhao.view.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -7,9 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.flyco.tablayout.SlidingTabLayout;
-import com.java.niuchenhao.bean.ChannelItem;
+import com.java.niuchenhao.view.activity.NewsListFragment;
+import com.java.niuchenhao.R;
+import com.java.niuchenhao.model.bean.ChannelItem;
+import com.java.niuchenhao.presenter.ChannelsPresenter;
 
-public class ChannelPagerAdapter extends FragmentPagerAdapter implements Notifiable{
+public class ChannelPagerAdapter extends FragmentPagerAdapter implements NotifiableAdapter {
 
     private Resources resources;
     private SlidingTabLayout slidingTabLayout;

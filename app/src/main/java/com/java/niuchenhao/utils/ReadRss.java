@@ -1,4 +1,4 @@
-package com.java.niuchenhao;
+package com.java.niuchenhao.utils;
 
 import android.os.AsyncTask;
 
@@ -6,25 +6,22 @@ import android.app.ProgressDialog;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.java.niuchenhao.bean.ChannelItem;
-import com.java.niuchenhao.bean.FeedItem;
+import com.java.niuchenhao.model.DatabaseModel;
+import com.java.niuchenhao.model.bean.ChannelItem;
+import com.java.niuchenhao.model.bean.FeedItem;
+import com.java.niuchenhao.presenter.FeedsPresenter;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 import org.jsoup.*;
 import org.litepal.LitePal;
-
-import static android.support.constraint.Constraints.TAG;
 
 /**
  * Created by rishabh on 31-01-2016.
@@ -106,16 +103,14 @@ public class ReadRss extends AsyncTask<Integer, Void, Boolean> {
                             maybeImg.addAll(Jsoup.parse(e.text()).getElementsByTag("IMG"));
                             if (!maybeImg.isEmpty()) {
                                 for (Element img : maybeImg) {
-                                    if (true) {
-                                        if (img.attr("src").startsWith("http://")) {
-                                            feeditem.setThumbnailUrl(img.attr("src"));
-                                            break;
-                                        }else if (img.attr("src").startsWith("/")) {
-                                            feeditem.setThumbnailUrl("http://www.people.com.cn"+img.attr("src"));
-                                            break;
-                                        } else {
-                                            Log.d("ReadRss error image", img.attr("src"));
-                                        }
+                                    if (img.attr("src").startsWith("http://")) {
+                                        feeditem.setThumbnailUrl(img.attr("src"));
+                                        break;
+                                    }else if (img.attr("src").startsWith("/")) {
+                                        feeditem.setThumbnailUrl("http://www.people.com.cn"+img.attr("src"));
+                                        break;
+                                    } else {
+                                        Log.d("ReadRss error image", img.attr("src"));
                                     }
                                 }
                             } else
