@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="opml_filename">opml_ru.xml</string>
+<string name="action_settings">Настройки</string>
+<string name="title_activity_news_content">новостной контент</string>
+<string name="menu_share">поделиться им!</string>
+<string name="customize_channels">Настройка каналов</string>
+<string name="recommend">рекомендовать</string>
+<string name="more_channels">больше каналов</string>
+<string name="my_channels">мои каналы</string>
+<string name="search">Search</string>
+<string name="settings">Настройки</string>
+<string name="title_activity_search">Поиск новостей</string>
+<string name="search_hint">введите ключевое слово!</string>
+<string name="favourite">избранное</string>
+<string name="unfavourite">unfavourite</string>
+<string name="dialog_deleteAll">очистить базу данных?</string>
+<string name="confirm">OK</string>
+<string name="cancel">Cancel</string>
+<string name="clear_data">очистить базу данных</string>
+</resources>
